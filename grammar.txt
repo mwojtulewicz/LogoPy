@@ -1,0 +1,23 @@
+# TOKENS
+
+FORWARD: 'fd';
+BACK: 'bk';
+RIGHT: 'rt';
+LEFT: 'lt';
+PENUP: 'pu';
+PENDOWN: 'pd';
+REPEAT: 'repeat';
+LBR: '[';
+RBR: ']';
+INTEGER: '0' | '-'?[1-9][0-9]*;
+
+# GRAMMAR
+
+program ::= (sentence)* EOF
+sentence ::= FORWARD INTEGER
+            | BACK INTEGER
+            | RIGHT INTEGER
+            | LEFT INTEGER
+            | REPEAT INTEGER LBR sentence RBR
+            | PENUP
+            | PENDOWN

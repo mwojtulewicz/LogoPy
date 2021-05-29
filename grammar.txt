@@ -50,8 +50,8 @@ turtle_instruction :
     | BACK expression
     | RIGHT expression
     | LEFT expression
-    PENUP
-    PENDOWN
+    | PENUP
+    | PENDOWN
 
 if_statement :
     IF condition LBR (statement)+ RBR

@@ -1,23 +1,94 @@
 # TOKENS
 
-FORWARD: 'fd';
-BACK: 'bk';
-RIGHT: 'rt';
-LEFT: 'lt';
-PENUP: 'pu';
-PENDOWN: 'pd';
-REPEAT: 'repeat';
-LBR: '[';
-RBR: ']';
-INTEGER: '0' | '-'?[1-9][0-9]*;
+STRING: [a-zA-Z_][a-zA-Z0-9_]*
+INT: '0' | '-'?[1-9][0-9]*
+UINT: '0' | [1-9][0-9]*
+FLOAT: INT DOT UINT
+TRUE: 'true'
+FALSE: 'false'
+LBR: '['
+RBR: ']'
+LPAR: '('
+RPAR: ')'
+QUOTE: '"'
+DOT: '.'
+COLON: ':'
+PLUS: '+'
+MINUS: '-'
+TIMES: '*'
+DIVIDE: '/'
+EQUALS: '='
+GT: '>'
+LT: '<'
+GTE: '>='
+LTE: '<='
+REPEAT: 'repeat'
+FORWARD: 'fd'
+BACK: 'bk'
+RIGHT: 'rt'
+LEFT: 'lt'
+PENUP: 'pu'
+PENDOWN: 'pd'
+PRINT: 'print'
+MAKE: 'make'
+IF: 'if'
+
+
 
 # GRAMMAR
 
-program ::= (sentence)* EOF
-sentence ::= FORWARD INTEGER
-            | BACK INTEGER
-            | RIGHT INTEGER
-            | LEFT INTEGER
-            | REPEAT INTEGER LBR sentence RBR
-            | PENUP
-            | PENDOWN
+program : (statement)* 
+
+statement :
+    turtle_instruction
+    | if_statement
+    | variable_declaration
+    | print_statement
+
+turtle_instruction :
+    FORWARD expression
+    | BACK expression
+    | RIGHT expression
+    | LEFT expression
+    PENUP
+    PENDOWN
+
+if_statement :
+    IF condition LBR (statement)+ RBR
+
+variable_declaration :
+    MAKE word expression
+
+print_statement :
+    PRINT (word | name | expression)
+
+expression :
+    value 
+    | name
+    | expression PLUS expression
+    | expression MINUS expression
+    | expression TIMES expression
+    | expression DIVIDE expression
+    | LPAR expression RPAR 
+
+condition :
+    logical_value
+    | expression GT expression
+    | expression LT expression
+    | expression GTE expression
+    | expression LTE expression
+    | expression EQUALS expression
+
+word : 
+    QUOTE STRING
+
+name :
+    COLON STRING 
+
+value :
+    INT 
+    | FLOAT
+
+logical_value :
+    TRUE
+    | FALSE

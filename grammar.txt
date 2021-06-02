@@ -41,6 +41,7 @@ program : (statement)*
 
 statement :
     turtle_instruction
+    | repeat_statement
     | if_statement
     | variable_declaration
     | print_statement
@@ -52,6 +53,9 @@ turtle_instruction :
     | LEFT expression
     | PENUP
     | PENDOWN
+
+repeat_statement :
+    REPEAT INT LBR (statement)+ RBR
 
 if_statement :
     IF condition LBR (statement)+ RBR

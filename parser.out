@@ -1,0 +1,1565 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> statement_list
+Rule 1     statement_list -> statement_list statement
+Rule 2     statement_list -> statement
+Rule 3     statement -> turtle_instruction
+Rule 4     statement -> repeat_statement
+Rule 5     statement -> if_statement
+Rule 6     statement -> variable_declaration
+Rule 7     statement -> print_statement
+Rule 8     turtle_instruction -> FORWARD expression
+Rule 9     turtle_instruction -> BACK expression
+Rule 10    turtle_instruction -> RIGHT expression
+Rule 11    turtle_instruction -> LEFT expression
+Rule 12    turtle_instruction -> PENUP
+Rule 13    turtle_instruction -> PENDOWN
+Rule 14    repeat_statement -> REPEAT INT LBR statement_list RBR
+Rule 15    if_statement -> IF condition LBR statement_list RBR
+Rule 16    variable_declaration -> MAKE word expression
+Rule 17    print_statement -> PRINT word
+Rule 18    print_statement -> PRINT expression
+Rule 19    expression -> INT
+Rule 20    expression -> FLOAT
+Rule 21    expression -> name
+Rule 22    expression -> LPAR expression RPAR
+Rule 23    expression -> expression TIMES expression
+Rule 24    expression -> expression DIVIDE expression
+Rule 25    expression -> expression PLUS expression
+Rule 26    expression -> expression MINUS expression
+Rule 27    condition -> TRUE
+Rule 28    condition -> FALSE
+Rule 29    condition -> expression GT expression
+Rule 30    condition -> expression LT expression
+Rule 31    condition -> expression GTE expression
+Rule 32    condition -> expression LTE expression
+Rule 33    condition -> expression EQUALS expression
+Rule 34    word -> QUOTE STRING
+Rule 35    name -> COLON STRING
+
+Terminals, with rules where they appear
+
+BACK                 : 9
+COLON                : 35
+DIVIDE               : 24
+EQUALS               : 33
+FALSE                : 28
+FLOAT                : 20
+FORWARD              : 8
+GT                   : 29
+GTE                  : 31
+IF                   : 15
+INT                  : 14 19
+LBR                  : 14 15
+LEFT                 : 11
+LPAR                 : 22
+LT                   : 30
+LTE                  : 32
+MAKE                 : 16
+MINUS                : 26
+PENDOWN              : 13
+PENUP                : 12
+PLUS                 : 25
+PRINT                : 17 18
+QUOTE                : 34
+RBR                  : 14 15
+REPEAT               : 14
+RIGHT                : 10
+RPAR                 : 22
+STRING               : 34 35
+TIMES                : 23
+TRUE                 : 27
+error                : 
+
+Nonterminals, with rules where they appear
+
+condition            : 15
+expression           : 8 9 10 11 16 18 22 23 23 24 24 25 25 26 26 29 29 30 30 31 31 32 32 33 33
+if_statement         : 5
+name                 : 21
+print_statement      : 7
+repeat_statement     : 4
+statement            : 1 2
+statement_list       : 1 14 15 0
+turtle_instruction   : 3
+variable_declaration : 6
+word                 : 16 17
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . statement_list
+    (1) statement_list -> . statement_list statement
+    (2) statement_list -> . statement
+    (3) statement -> . turtle_instruction
+    (4) statement -> . repeat_statement
+    (5) statement -> . if_statement
+    (6) statement -> . variable_declaration
+    (7) statement -> . print_statement
+    (8) turtle_instruction -> . FORWARD expression
+    (9) turtle_instruction -> . BACK expression
+    (10) turtle_instruction -> . RIGHT expression
+    (11) turtle_instruction -> . LEFT expression
+    (12) turtle_instruction -> . PENUP
+    (13) turtle_instruction -> . PENDOWN
+    (14) repeat_statement -> . REPEAT INT LBR statement_list RBR
+    (15) if_statement -> . IF condition LBR statement_list RBR
+    (16) variable_declaration -> . MAKE word expression
+    (17) print_statement -> . PRINT word
+    (18) print_statement -> . PRINT expression
+
+    FORWARD         shift and go to state 8
+    BACK            shift and go to state 9
+    RIGHT           shift and go to state 10
+    LEFT            shift and go to state 11
+    PENUP           shift and go to state 12
+    PENDOWN         shift and go to state 13
+    REPEAT          shift and go to state 14
+    IF              shift and go to state 15
+    MAKE            shift and go to state 16
+    PRINT           shift and go to state 17
+
+    statement_list                 shift and go to state 1
+    statement                      shift and go to state 2
+    turtle_instruction             shift and go to state 3
+    repeat_statement               shift and go to state 4
+    if_statement                   shift and go to state 5
+    variable_declaration           shift and go to state 6
+    print_statement                shift and go to state 7
+
+state 1
+
+    (0) S' -> statement_list .
+    (1) statement_list -> statement_list . statement
+    (3) statement -> . turtle_instruction
+    (4) statement -> . repeat_statement
+    (5) statement -> . if_statement
+    (6) statement -> . variable_declaration
+    (7) statement -> . print_statement
+    (8) turtle_instruction -> . FORWARD expression
+    (9) turtle_instruction -> . BACK expression
+    (10) turtle_instruction -> . RIGHT expression
+    (11) turtle_instruction -> . LEFT expression
+    (12) turtle_instruction -> . PENUP
+    (13) turtle_instruction -> . PENDOWN
+    (14) repeat_statement -> . REPEAT INT LBR statement_list RBR
+    (15) if_statement -> . IF condition LBR statement_list RBR
+    (16) variable_declaration -> . MAKE word expression
+    (17) print_statement -> . PRINT word
+    (18) print_statement -> . PRINT expression
+
+    FORWARD         shift and go to state 8
+    BACK            shift and go to state 9
+    RIGHT           shift and go to state 10
+    LEFT            shift and go to state 11
+    PENUP           shift and go to state 12
+    PENDOWN         shift and go to state 13
+    REPEAT          shift and go to state 14
+    IF              shift and go to state 15
+    MAKE            shift and go to state 16
+    PRINT           shift and go to state 17
+
+    statement                      shift and go to state 18
+    turtle_instruction             shift and go to state 3
+    repeat_statement               shift and go to state 4
+    if_statement                   shift and go to state 5
+    variable_declaration           shift and go to state 6
+    print_statement                shift and go to state 7
+
+state 2
+
+    (2) statement_list -> statement .
+
+    FORWARD         reduce using rule 2 (statement_list -> statement .)
+    BACK            reduce using rule 2 (statement_list -> statement .)
+    RIGHT           reduce using rule 2 (statement_list -> statement .)
+    LEFT            reduce using rule 2 (statement_list -> statement .)
+    PENUP           reduce using rule 2 (statement_list -> statement .)
+    PENDOWN         reduce using rule 2 (statement_list -> statement .)
+    REPEAT          reduce using rule 2 (statement_list -> statement .)
+    IF              reduce using rule 2 (statement_list -> statement .)
+    MAKE            reduce using rule 2 (statement_list -> statement .)
+    PRINT           reduce using rule 2 (statement_list -> statement .)
+    $end            reduce using rule 2 (statement_list -> statement .)
+    RBR             reduce using rule 2 (statement_list -> statement .)
+
+
+state 3
+
+    (3) statement -> turtle_instruction .
+
+    FORWARD         reduce using rule 3 (statement -> turtle_instruction .)
+    BACK            reduce using rule 3 (statement -> turtle_instruction .)
+    RIGHT           reduce using rule 3 (statement -> turtle_instruction .)
+    LEFT            reduce using rule 3 (statement -> turtle_instruction .)
+    PENUP           reduce using rule 3 (statement -> turtle_instruction .)
+    PENDOWN         reduce using rule 3 (statement -> turtle_instruction .)
+    REPEAT          reduce using rule 3 (statement -> turtle_instruction .)
+    IF              reduce using rule 3 (statement -> turtle_instruction .)
+    MAKE            reduce using rule 3 (statement -> turtle_instruction .)
+    PRINT           reduce using rule 3 (statement -> turtle_instruction .)
+    $end            reduce using rule 3 (statement -> turtle_instruction .)
+    RBR             reduce using rule 3 (statement -> turtle_instruction .)
+
+
+state 4
+
+    (4) statement -> repeat_statement .
+
+    FORWARD         reduce using rule 4 (statement -> repeat_statement .)
+    BACK            reduce using rule 4 (statement -> repeat_statement .)
+    RIGHT           reduce using rule 4 (statement -> repeat_statement .)
+    LEFT            reduce using rule 4 (statement -> repeat_statement .)
+    PENUP           reduce using rule 4 (statement -> repeat_statement .)
+    PENDOWN         reduce using rule 4 (statement -> repeat_statement .)
+    REPEAT          reduce using rule 4 (statement -> repeat_statement .)
+    IF              reduce using rule 4 (statement -> repeat_statement .)
+    MAKE            reduce using rule 4 (statement -> repeat_statement .)
+    PRINT           reduce using rule 4 (statement -> repeat_statement .)
+    $end            reduce using rule 4 (statement -> repeat_statement .)
+    RBR             reduce using rule 4 (statement -> repeat_statement .)
+
+
+state 5
+
+    (5) statement -> if_statement .
+
+    FORWARD         reduce using rule 5 (statement -> if_statement .)
+    BACK            reduce using rule 5 (statement -> if_statement .)
+    RIGHT           reduce using rule 5 (statement -> if_statement .)
+    LEFT            reduce using rule 5 (statement -> if_statement .)
+    PENUP           reduce using rule 5 (statement -> if_statement .)
+    PENDOWN         reduce using rule 5 (statement -> if_statement .)
+    REPEAT          reduce using rule 5 (statement -> if_statement .)
+    IF              reduce using rule 5 (statement -> if_statement .)
+    MAKE            reduce using rule 5 (statement -> if_statement .)
+    PRINT           reduce using rule 5 (statement -> if_statement .)
+    $end            reduce using rule 5 (statement -> if_statement .)
+    RBR             reduce using rule 5 (statement -> if_statement .)
+
+
+state 6
+
+    (6) statement -> variable_declaration .
+
+    FORWARD         reduce using rule 6 (statement -> variable_declaration .)
+    BACK            reduce using rule 6 (statement -> variable_declaration .)
+    RIGHT           reduce using rule 6 (statement -> variable_declaration .)
+    LEFT            reduce using rule 6 (statement -> variable_declaration .)
+    PENUP           reduce using rule 6 (statement -> variable_declaration .)
+    PENDOWN         reduce using rule 6 (statement -> variable_declaration .)
+    REPEAT          reduce using rule 6 (statement -> variable_declaration .)
+    IF              reduce using rule 6 (statement -> variable_declaration .)
+    MAKE            reduce using rule 6 (statement -> variable_declaration .)
+    PRINT           reduce using rule 6 (statement -> variable_declaration .)
+    $end            reduce using rule 6 (statement -> variable_declaration .)
+    RBR             reduce using rule 6 (statement -> variable_declaration .)
+
+
+state 7
+
+    (7) statement -> print_statement .
+
+    FORWARD         reduce using rule 7 (statement -> print_statement .)
+    BACK            reduce using rule 7 (statement -> print_statement .)
+    RIGHT           reduce using rule 7 (statement -> print_statement .)
+    LEFT            reduce using rule 7 (statement -> print_statement .)
+    PENUP           reduce using rule 7 (statement -> print_statement .)
+    PENDOWN         reduce using rule 7 (statement -> print_statement .)
+    REPEAT          reduce using rule 7 (statement -> print_statement .)
+    IF              reduce using rule 7 (statement -> print_statement .)
+    MAKE            reduce using rule 7 (statement -> print_statement .)
+    PRINT           reduce using rule 7 (statement -> print_statement .)
+    $end            reduce using rule 7 (statement -> print_statement .)
+    RBR             reduce using rule 7 (statement -> print_statement .)
+
+
+state 8
+
+    (8) turtle_instruction -> FORWARD . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 19
+    name                           shift and go to state 22
+
+state 9
+
+    (9) turtle_instruction -> BACK . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 25
+    name                           shift and go to state 22
+
+state 10
+
+    (10) turtle_instruction -> RIGHT . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 26
+    name                           shift and go to state 22
+
+state 11
+
+    (11) turtle_instruction -> LEFT . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 27
+    name                           shift and go to state 22
+
+state 12
+
+    (12) turtle_instruction -> PENUP .
+
+    FORWARD         reduce using rule 12 (turtle_instruction -> PENUP .)
+    BACK            reduce using rule 12 (turtle_instruction -> PENUP .)
+    RIGHT           reduce using rule 12 (turtle_instruction -> PENUP .)
+    LEFT            reduce using rule 12 (turtle_instruction -> PENUP .)
+    PENUP           reduce using rule 12 (turtle_instruction -> PENUP .)
+    PENDOWN         reduce using rule 12 (turtle_instruction -> PENUP .)
+    REPEAT          reduce using rule 12 (turtle_instruction -> PENUP .)
+    IF              reduce using rule 12 (turtle_instruction -> PENUP .)
+    MAKE            reduce using rule 12 (turtle_instruction -> PENUP .)
+    PRINT           reduce using rule 12 (turtle_instruction -> PENUP .)
+    $end            reduce using rule 12 (turtle_instruction -> PENUP .)
+    RBR             reduce using rule 12 (turtle_instruction -> PENUP .)
+
+
+state 13
+
+    (13) turtle_instruction -> PENDOWN .
+
+    FORWARD         reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    BACK            reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    RIGHT           reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    LEFT            reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    PENUP           reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    PENDOWN         reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    REPEAT          reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    IF              reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    MAKE            reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    PRINT           reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    $end            reduce using rule 13 (turtle_instruction -> PENDOWN .)
+    RBR             reduce using rule 13 (turtle_instruction -> PENDOWN .)
+
+
+state 14
+
+    (14) repeat_statement -> REPEAT . INT LBR statement_list RBR
+
+    INT             shift and go to state 28
+
+
+state 15
+
+    (15) if_statement -> IF . condition LBR statement_list RBR
+    (27) condition -> . TRUE
+    (28) condition -> . FALSE
+    (29) condition -> . expression GT expression
+    (30) condition -> . expression LT expression
+    (31) condition -> . expression GTE expression
+    (32) condition -> . expression LTE expression
+    (33) condition -> . expression EQUALS expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    TRUE            shift and go to state 30
+    FALSE           shift and go to state 31
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    condition                      shift and go to state 29
+    expression                     shift and go to state 32
+    name                           shift and go to state 22
+
+state 16
+
+    (16) variable_declaration -> MAKE . word expression
+    (34) word -> . QUOTE STRING
+
+    QUOTE           shift and go to state 34
+
+    word                           shift and go to state 33
+
+state 17
+
+    (17) print_statement -> PRINT . word
+    (18) print_statement -> PRINT . expression
+    (34) word -> . QUOTE STRING
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    QUOTE           shift and go to state 34
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    word                           shift and go to state 35
+    expression                     shift and go to state 36
+    name                           shift and go to state 22
+
+state 18
+
+    (1) statement_list -> statement_list statement .
+
+    FORWARD         reduce using rule 1 (statement_list -> statement_list statement .)
+    BACK            reduce using rule 1 (statement_list -> statement_list statement .)
+    RIGHT           reduce using rule 1 (statement_list -> statement_list statement .)
+    LEFT            reduce using rule 1 (statement_list -> statement_list statement .)
+    PENUP           reduce using rule 1 (statement_list -> statement_list statement .)
+    PENDOWN         reduce using rule 1 (statement_list -> statement_list statement .)
+    REPEAT          reduce using rule 1 (statement_list -> statement_list statement .)
+    IF              reduce using rule 1 (statement_list -> statement_list statement .)
+    MAKE            reduce using rule 1 (statement_list -> statement_list statement .)
+    PRINT           reduce using rule 1 (statement_list -> statement_list statement .)
+    $end            reduce using rule 1 (statement_list -> statement_list statement .)
+    RBR             reduce using rule 1 (statement_list -> statement_list statement .)
+
+
+state 19
+
+    (8) turtle_instruction -> FORWARD expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    FORWARD         reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    BACK            reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    RIGHT           reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    LEFT            reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    PENUP           reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    PENDOWN         reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    REPEAT          reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    IF              reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    MAKE            reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    PRINT           reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    $end            reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    RBR             reduce using rule 8 (turtle_instruction -> FORWARD expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 20
+
+    (19) expression -> INT .
+
+    TIMES           reduce using rule 19 (expression -> INT .)
+    DIVIDE          reduce using rule 19 (expression -> INT .)
+    PLUS            reduce using rule 19 (expression -> INT .)
+    MINUS           reduce using rule 19 (expression -> INT .)
+    FORWARD         reduce using rule 19 (expression -> INT .)
+    BACK            reduce using rule 19 (expression -> INT .)
+    RIGHT           reduce using rule 19 (expression -> INT .)
+    LEFT            reduce using rule 19 (expression -> INT .)
+    PENUP           reduce using rule 19 (expression -> INT .)
+    PENDOWN         reduce using rule 19 (expression -> INT .)
+    REPEAT          reduce using rule 19 (expression -> INT .)
+    IF              reduce using rule 19 (expression -> INT .)
+    MAKE            reduce using rule 19 (expression -> INT .)
+    PRINT           reduce using rule 19 (expression -> INT .)
+    $end            reduce using rule 19 (expression -> INT .)
+    RBR             reduce using rule 19 (expression -> INT .)
+    GT              reduce using rule 19 (expression -> INT .)
+    LT              reduce using rule 19 (expression -> INT .)
+    GTE             reduce using rule 19 (expression -> INT .)
+    LTE             reduce using rule 19 (expression -> INT .)
+    EQUALS          reduce using rule 19 (expression -> INT .)
+    RPAR            reduce using rule 19 (expression -> INT .)
+    LBR             reduce using rule 19 (expression -> INT .)
+
+
+state 21
+
+    (20) expression -> FLOAT .
+
+    TIMES           reduce using rule 20 (expression -> FLOAT .)
+    DIVIDE          reduce using rule 20 (expression -> FLOAT .)
+    PLUS            reduce using rule 20 (expression -> FLOAT .)
+    MINUS           reduce using rule 20 (expression -> FLOAT .)
+    FORWARD         reduce using rule 20 (expression -> FLOAT .)
+    BACK            reduce using rule 20 (expression -> FLOAT .)
+    RIGHT           reduce using rule 20 (expression -> FLOAT .)
+    LEFT            reduce using rule 20 (expression -> FLOAT .)
+    PENUP           reduce using rule 20 (expression -> FLOAT .)
+    PENDOWN         reduce using rule 20 (expression -> FLOAT .)
+    REPEAT          reduce using rule 20 (expression -> FLOAT .)
+    IF              reduce using rule 20 (expression -> FLOAT .)
+    MAKE            reduce using rule 20 (expression -> FLOAT .)
+    PRINT           reduce using rule 20 (expression -> FLOAT .)
+    $end            reduce using rule 20 (expression -> FLOAT .)
+    RBR             reduce using rule 20 (expression -> FLOAT .)
+    GT              reduce using rule 20 (expression -> FLOAT .)
+    LT              reduce using rule 20 (expression -> FLOAT .)
+    GTE             reduce using rule 20 (expression -> FLOAT .)
+    LTE             reduce using rule 20 (expression -> FLOAT .)
+    EQUALS          reduce using rule 20 (expression -> FLOAT .)
+    RPAR            reduce using rule 20 (expression -> FLOAT .)
+    LBR             reduce using rule 20 (expression -> FLOAT .)
+
+
+state 22
+
+    (21) expression -> name .
+
+    TIMES           reduce using rule 21 (expression -> name .)
+    DIVIDE          reduce using rule 21 (expression -> name .)
+    PLUS            reduce using rule 21 (expression -> name .)
+    MINUS           reduce using rule 21 (expression -> name .)
+    FORWARD         reduce using rule 21 (expression -> name .)
+    BACK            reduce using rule 21 (expression -> name .)
+    RIGHT           reduce using rule 21 (expression -> name .)
+    LEFT            reduce using rule 21 (expression -> name .)
+    PENUP           reduce using rule 21 (expression -> name .)
+    PENDOWN         reduce using rule 21 (expression -> name .)
+    REPEAT          reduce using rule 21 (expression -> name .)
+    IF              reduce using rule 21 (expression -> name .)
+    MAKE            reduce using rule 21 (expression -> name .)
+    PRINT           reduce using rule 21 (expression -> name .)
+    $end            reduce using rule 21 (expression -> name .)
+    RBR             reduce using rule 21 (expression -> name .)
+    GT              reduce using rule 21 (expression -> name .)
+    LT              reduce using rule 21 (expression -> name .)
+    GTE             reduce using rule 21 (expression -> name .)
+    LTE             reduce using rule 21 (expression -> name .)
+    EQUALS          reduce using rule 21 (expression -> name .)
+    RPAR            reduce using rule 21 (expression -> name .)
+    LBR             reduce using rule 21 (expression -> name .)
+
+
+state 23
+
+    (22) expression -> LPAR . expression RPAR
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 41
+    name                           shift and go to state 22
+
+state 24
+
+    (35) name -> COLON . STRING
+
+    STRING          shift and go to state 42
+
+
+state 25
+
+    (9) turtle_instruction -> BACK expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    FORWARD         reduce using rule 9 (turtle_instruction -> BACK expression .)
+    BACK            reduce using rule 9 (turtle_instruction -> BACK expression .)
+    RIGHT           reduce using rule 9 (turtle_instruction -> BACK expression .)
+    LEFT            reduce using rule 9 (turtle_instruction -> BACK expression .)
+    PENUP           reduce using rule 9 (turtle_instruction -> BACK expression .)
+    PENDOWN         reduce using rule 9 (turtle_instruction -> BACK expression .)
+    REPEAT          reduce using rule 9 (turtle_instruction -> BACK expression .)
+    IF              reduce using rule 9 (turtle_instruction -> BACK expression .)
+    MAKE            reduce using rule 9 (turtle_instruction -> BACK expression .)
+    PRINT           reduce using rule 9 (turtle_instruction -> BACK expression .)
+    $end            reduce using rule 9 (turtle_instruction -> BACK expression .)
+    RBR             reduce using rule 9 (turtle_instruction -> BACK expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 26
+
+    (10) turtle_instruction -> RIGHT expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    FORWARD         reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    BACK            reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    RIGHT           reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    LEFT            reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    PENUP           reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    PENDOWN         reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    REPEAT          reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    IF              reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    MAKE            reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    PRINT           reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    $end            reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    RBR             reduce using rule 10 (turtle_instruction -> RIGHT expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 27
+
+    (11) turtle_instruction -> LEFT expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    FORWARD         reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    BACK            reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    RIGHT           reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    LEFT            reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    PENUP           reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    PENDOWN         reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    REPEAT          reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    IF              reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    MAKE            reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    PRINT           reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    $end            reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    RBR             reduce using rule 11 (turtle_instruction -> LEFT expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 28
+
+    (14) repeat_statement -> REPEAT INT . LBR statement_list RBR
+
+    LBR             shift and go to state 43
+
+
+state 29
+
+    (15) if_statement -> IF condition . LBR statement_list RBR
+
+    LBR             shift and go to state 44
+
+
+state 30
+
+    (27) condition -> TRUE .
+
+    LBR             reduce using rule 27 (condition -> TRUE .)
+
+
+state 31
+
+    (28) condition -> FALSE .
+
+    LBR             reduce using rule 28 (condition -> FALSE .)
+
+
+state 32
+
+    (29) condition -> expression . GT expression
+    (30) condition -> expression . LT expression
+    (31) condition -> expression . GTE expression
+    (32) condition -> expression . LTE expression
+    (33) condition -> expression . EQUALS expression
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    GT              shift and go to state 45
+    LT              shift and go to state 46
+    GTE             shift and go to state 47
+    LTE             shift and go to state 48
+    EQUALS          shift and go to state 49
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 33
+
+    (16) variable_declaration -> MAKE word . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 50
+    name                           shift and go to state 22
+
+state 34
+
+    (34) word -> QUOTE . STRING
+
+    STRING          shift and go to state 51
+
+
+state 35
+
+    (17) print_statement -> PRINT word .
+
+    FORWARD         reduce using rule 17 (print_statement -> PRINT word .)
+    BACK            reduce using rule 17 (print_statement -> PRINT word .)
+    RIGHT           reduce using rule 17 (print_statement -> PRINT word .)
+    LEFT            reduce using rule 17 (print_statement -> PRINT word .)
+    PENUP           reduce using rule 17 (print_statement -> PRINT word .)
+    PENDOWN         reduce using rule 17 (print_statement -> PRINT word .)
+    REPEAT          reduce using rule 17 (print_statement -> PRINT word .)
+    IF              reduce using rule 17 (print_statement -> PRINT word .)
+    MAKE            reduce using rule 17 (print_statement -> PRINT word .)
+    PRINT           reduce using rule 17 (print_statement -> PRINT word .)
+    $end            reduce using rule 17 (print_statement -> PRINT word .)
+    RBR             reduce using rule 17 (print_statement -> PRINT word .)
+
+
+state 36
+
+    (18) print_statement -> PRINT expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    FORWARD         reduce using rule 18 (print_statement -> PRINT expression .)
+    BACK            reduce using rule 18 (print_statement -> PRINT expression .)
+    RIGHT           reduce using rule 18 (print_statement -> PRINT expression .)
+    LEFT            reduce using rule 18 (print_statement -> PRINT expression .)
+    PENUP           reduce using rule 18 (print_statement -> PRINT expression .)
+    PENDOWN         reduce using rule 18 (print_statement -> PRINT expression .)
+    REPEAT          reduce using rule 18 (print_statement -> PRINT expression .)
+    IF              reduce using rule 18 (print_statement -> PRINT expression .)
+    MAKE            reduce using rule 18 (print_statement -> PRINT expression .)
+    PRINT           reduce using rule 18 (print_statement -> PRINT expression .)
+    $end            reduce using rule 18 (print_statement -> PRINT expression .)
+    RBR             reduce using rule 18 (print_statement -> PRINT expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 37
+
+    (23) expression -> expression TIMES . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 52
+    name                           shift and go to state 22
+
+state 38
+
+    (24) expression -> expression DIVIDE . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 53
+    name                           shift and go to state 22
+
+state 39
+
+    (25) expression -> expression PLUS . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 54
+    name                           shift and go to state 22
+
+state 40
+
+    (26) expression -> expression MINUS . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 55
+    name                           shift and go to state 22
+
+state 41
+
+    (22) expression -> LPAR expression . RPAR
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    RPAR            shift and go to state 56
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 42
+
+    (35) name -> COLON STRING .
+
+    TIMES           reduce using rule 35 (name -> COLON STRING .)
+    DIVIDE          reduce using rule 35 (name -> COLON STRING .)
+    PLUS            reduce using rule 35 (name -> COLON STRING .)
+    MINUS           reduce using rule 35 (name -> COLON STRING .)
+    FORWARD         reduce using rule 35 (name -> COLON STRING .)
+    BACK            reduce using rule 35 (name -> COLON STRING .)
+    RIGHT           reduce using rule 35 (name -> COLON STRING .)
+    LEFT            reduce using rule 35 (name -> COLON STRING .)
+    PENUP           reduce using rule 35 (name -> COLON STRING .)
+    PENDOWN         reduce using rule 35 (name -> COLON STRING .)
+    REPEAT          reduce using rule 35 (name -> COLON STRING .)
+    IF              reduce using rule 35 (name -> COLON STRING .)
+    MAKE            reduce using rule 35 (name -> COLON STRING .)
+    PRINT           reduce using rule 35 (name -> COLON STRING .)
+    $end            reduce using rule 35 (name -> COLON STRING .)
+    RBR             reduce using rule 35 (name -> COLON STRING .)
+    GT              reduce using rule 35 (name -> COLON STRING .)
+    LT              reduce using rule 35 (name -> COLON STRING .)
+    GTE             reduce using rule 35 (name -> COLON STRING .)
+    LTE             reduce using rule 35 (name -> COLON STRING .)
+    EQUALS          reduce using rule 35 (name -> COLON STRING .)
+    RPAR            reduce using rule 35 (name -> COLON STRING .)
+    LBR             reduce using rule 35 (name -> COLON STRING .)
+
+
+state 43
+
+    (14) repeat_statement -> REPEAT INT LBR . statement_list RBR
+    (1) statement_list -> . statement_list statement
+    (2) statement_list -> . statement
+    (3) statement -> . turtle_instruction
+    (4) statement -> . repeat_statement
+    (5) statement -> . if_statement
+    (6) statement -> . variable_declaration
+    (7) statement -> . print_statement
+    (8) turtle_instruction -> . FORWARD expression
+    (9) turtle_instruction -> . BACK expression
+    (10) turtle_instruction -> . RIGHT expression
+    (11) turtle_instruction -> . LEFT expression
+    (12) turtle_instruction -> . PENUP
+    (13) turtle_instruction -> . PENDOWN
+    (14) repeat_statement -> . REPEAT INT LBR statement_list RBR
+    (15) if_statement -> . IF condition LBR statement_list RBR
+    (16) variable_declaration -> . MAKE word expression
+    (17) print_statement -> . PRINT word
+    (18) print_statement -> . PRINT expression
+
+    FORWARD         shift and go to state 8
+    BACK            shift and go to state 9
+    RIGHT           shift and go to state 10
+    LEFT            shift and go to state 11
+    PENUP           shift and go to state 12
+    PENDOWN         shift and go to state 13
+    REPEAT          shift and go to state 14
+    IF              shift and go to state 15
+    MAKE            shift and go to state 16
+    PRINT           shift and go to state 17
+
+    statement_list                 shift and go to state 57
+    statement                      shift and go to state 2
+    turtle_instruction             shift and go to state 3
+    repeat_statement               shift and go to state 4
+    if_statement                   shift and go to state 5
+    variable_declaration           shift and go to state 6
+    print_statement                shift and go to state 7
+
+state 44
+
+    (15) if_statement -> IF condition LBR . statement_list RBR
+    (1) statement_list -> . statement_list statement
+    (2) statement_list -> . statement
+    (3) statement -> . turtle_instruction
+    (4) statement -> . repeat_statement
+    (5) statement -> . if_statement
+    (6) statement -> . variable_declaration
+    (7) statement -> . print_statement
+    (8) turtle_instruction -> . FORWARD expression
+    (9) turtle_instruction -> . BACK expression
+    (10) turtle_instruction -> . RIGHT expression
+    (11) turtle_instruction -> . LEFT expression
+    (12) turtle_instruction -> . PENUP
+    (13) turtle_instruction -> . PENDOWN
+    (14) repeat_statement -> . REPEAT INT LBR statement_list RBR
+    (15) if_statement -> . IF condition LBR statement_list RBR
+    (16) variable_declaration -> . MAKE word expression
+    (17) print_statement -> . PRINT word
+    (18) print_statement -> . PRINT expression
+
+    FORWARD         shift and go to state 8
+    BACK            shift and go to state 9
+    RIGHT           shift and go to state 10
+    LEFT            shift and go to state 11
+    PENUP           shift and go to state 12
+    PENDOWN         shift and go to state 13
+    REPEAT          shift and go to state 14
+    IF              shift and go to state 15
+    MAKE            shift and go to state 16
+    PRINT           shift and go to state 17
+
+    statement_list                 shift and go to state 58
+    statement                      shift and go to state 2
+    turtle_instruction             shift and go to state 3
+    repeat_statement               shift and go to state 4
+    if_statement                   shift and go to state 5
+    variable_declaration           shift and go to state 6
+    print_statement                shift and go to state 7
+
+state 45
+
+    (29) condition -> expression GT . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 59
+    name                           shift and go to state 22
+
+state 46
+
+    (30) condition -> expression LT . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 60
+    name                           shift and go to state 22
+
+state 47
+
+    (31) condition -> expression GTE . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 61
+    name                           shift and go to state 22
+
+state 48
+
+    (32) condition -> expression LTE . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 62
+    name                           shift and go to state 22
+
+state 49
+
+    (33) condition -> expression EQUALS . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . expression TIMES expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . expression PLUS expression
+    (26) expression -> . expression MINUS expression
+    (35) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    COLON           shift and go to state 24
+
+    expression                     shift and go to state 63
+    name                           shift and go to state 22
+
+state 50
+
+    (16) variable_declaration -> MAKE word expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    FORWARD         reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    BACK            reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    RIGHT           reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    LEFT            reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    PENUP           reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    PENDOWN         reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    REPEAT          reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    IF              reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    MAKE            reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    PRINT           reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    $end            reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    RBR             reduce using rule 16 (variable_declaration -> MAKE word expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 51
+
+    (34) word -> QUOTE STRING .
+
+    INT             reduce using rule 34 (word -> QUOTE STRING .)
+    FLOAT           reduce using rule 34 (word -> QUOTE STRING .)
+    LPAR            reduce using rule 34 (word -> QUOTE STRING .)
+    COLON           reduce using rule 34 (word -> QUOTE STRING .)
+    FORWARD         reduce using rule 34 (word -> QUOTE STRING .)
+    BACK            reduce using rule 34 (word -> QUOTE STRING .)
+    RIGHT           reduce using rule 34 (word -> QUOTE STRING .)
+    LEFT            reduce using rule 34 (word -> QUOTE STRING .)
+    PENUP           reduce using rule 34 (word -> QUOTE STRING .)
+    PENDOWN         reduce using rule 34 (word -> QUOTE STRING .)
+    REPEAT          reduce using rule 34 (word -> QUOTE STRING .)
+    IF              reduce using rule 34 (word -> QUOTE STRING .)
+    MAKE            reduce using rule 34 (word -> QUOTE STRING .)
+    PRINT           reduce using rule 34 (word -> QUOTE STRING .)
+    $end            reduce using rule 34 (word -> QUOTE STRING .)
+    RBR             reduce using rule 34 (word -> QUOTE STRING .)
+
+
+state 52
+
+    (23) expression -> expression TIMES expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    TIMES           reduce using rule 23 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 23 (expression -> expression TIMES expression .)
+    PLUS            reduce using rule 23 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 23 (expression -> expression TIMES expression .)
+    FORWARD         reduce using rule 23 (expression -> expression TIMES expression .)
+    BACK            reduce using rule 23 (expression -> expression TIMES expression .)
+    RIGHT           reduce using rule 23 (expression -> expression TIMES expression .)
+    LEFT            reduce using rule 23 (expression -> expression TIMES expression .)
+    PENUP           reduce using rule 23 (expression -> expression TIMES expression .)
+    PENDOWN         reduce using rule 23 (expression -> expression TIMES expression .)
+    REPEAT          reduce using rule 23 (expression -> expression TIMES expression .)
+    IF              reduce using rule 23 (expression -> expression TIMES expression .)
+    MAKE            reduce using rule 23 (expression -> expression TIMES expression .)
+    PRINT           reduce using rule 23 (expression -> expression TIMES expression .)
+    $end            reduce using rule 23 (expression -> expression TIMES expression .)
+    RBR             reduce using rule 23 (expression -> expression TIMES expression .)
+    GT              reduce using rule 23 (expression -> expression TIMES expression .)
+    LT              reduce using rule 23 (expression -> expression TIMES expression .)
+    GTE             reduce using rule 23 (expression -> expression TIMES expression .)
+    LTE             reduce using rule 23 (expression -> expression TIMES expression .)
+    EQUALS          reduce using rule 23 (expression -> expression TIMES expression .)
+    RPAR            reduce using rule 23 (expression -> expression TIMES expression .)
+    LBR             reduce using rule 23 (expression -> expression TIMES expression .)
+
+  ! TIMES           [ shift and go to state 37 ]
+  ! DIVIDE          [ shift and go to state 38 ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! MINUS           [ shift and go to state 40 ]
+
+
+state 53
+
+    (24) expression -> expression DIVIDE expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    TIMES           reduce using rule 24 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 24 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 24 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 24 (expression -> expression DIVIDE expression .)
+    FORWARD         reduce using rule 24 (expression -> expression DIVIDE expression .)
+    BACK            reduce using rule 24 (expression -> expression DIVIDE expression .)
+    RIGHT           reduce using rule 24 (expression -> expression DIVIDE expression .)
+    LEFT            reduce using rule 24 (expression -> expression DIVIDE expression .)
+    PENUP           reduce using rule 24 (expression -> expression DIVIDE expression .)
+    PENDOWN         reduce using rule 24 (expression -> expression DIVIDE expression .)
+    REPEAT          reduce using rule 24 (expression -> expression DIVIDE expression .)
+    IF              reduce using rule 24 (expression -> expression DIVIDE expression .)
+    MAKE            reduce using rule 24 (expression -> expression DIVIDE expression .)
+    PRINT           reduce using rule 24 (expression -> expression DIVIDE expression .)
+    $end            reduce using rule 24 (expression -> expression DIVIDE expression .)
+    RBR             reduce using rule 24 (expression -> expression DIVIDE expression .)
+    GT              reduce using rule 24 (expression -> expression DIVIDE expression .)
+    LT              reduce using rule 24 (expression -> expression DIVIDE expression .)
+    GTE             reduce using rule 24 (expression -> expression DIVIDE expression .)
+    LTE             reduce using rule 24 (expression -> expression DIVIDE expression .)
+    EQUALS          reduce using rule 24 (expression -> expression DIVIDE expression .)
+    RPAR            reduce using rule 24 (expression -> expression DIVIDE expression .)
+    LBR             reduce using rule 24 (expression -> expression DIVIDE expression .)
+
+  ! TIMES           [ shift and go to state 37 ]
+  ! DIVIDE          [ shift and go to state 38 ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! MINUS           [ shift and go to state 40 ]
+
+
+state 54
+
+    (25) expression -> expression PLUS expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    PLUS            reduce using rule 25 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 25 (expression -> expression PLUS expression .)
+    FORWARD         reduce using rule 25 (expression -> expression PLUS expression .)
+    BACK            reduce using rule 25 (expression -> expression PLUS expression .)
+    RIGHT           reduce using rule 25 (expression -> expression PLUS expression .)
+    LEFT            reduce using rule 25 (expression -> expression PLUS expression .)
+    PENUP           reduce using rule 25 (expression -> expression PLUS expression .)
+    PENDOWN         reduce using rule 25 (expression -> expression PLUS expression .)
+    REPEAT          reduce using rule 25 (expression -> expression PLUS expression .)
+    IF              reduce using rule 25 (expression -> expression PLUS expression .)
+    MAKE            reduce using rule 25 (expression -> expression PLUS expression .)
+    PRINT           reduce using rule 25 (expression -> expression PLUS expression .)
+    $end            reduce using rule 25 (expression -> expression PLUS expression .)
+    RBR             reduce using rule 25 (expression -> expression PLUS expression .)
+    GT              reduce using rule 25 (expression -> expression PLUS expression .)
+    LT              reduce using rule 25 (expression -> expression PLUS expression .)
+    GTE             reduce using rule 25 (expression -> expression PLUS expression .)
+    LTE             reduce using rule 25 (expression -> expression PLUS expression .)
+    EQUALS          reduce using rule 25 (expression -> expression PLUS expression .)
+    RPAR            reduce using rule 25 (expression -> expression PLUS expression .)
+    LBR             reduce using rule 25 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+
+  ! TIMES           [ reduce using rule 25 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 25 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! MINUS           [ shift and go to state 40 ]
+
+
+state 55
+
+    (26) expression -> expression MINUS expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    PLUS            reduce using rule 26 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 26 (expression -> expression MINUS expression .)
+    FORWARD         reduce using rule 26 (expression -> expression MINUS expression .)
+    BACK            reduce using rule 26 (expression -> expression MINUS expression .)
+    RIGHT           reduce using rule 26 (expression -> expression MINUS expression .)
+    LEFT            reduce using rule 26 (expression -> expression MINUS expression .)
+    PENUP           reduce using rule 26 (expression -> expression MINUS expression .)
+    PENDOWN         reduce using rule 26 (expression -> expression MINUS expression .)
+    REPEAT          reduce using rule 26 (expression -> expression MINUS expression .)
+    IF              reduce using rule 26 (expression -> expression MINUS expression .)
+    MAKE            reduce using rule 26 (expression -> expression MINUS expression .)
+    PRINT           reduce using rule 26 (expression -> expression MINUS expression .)
+    $end            reduce using rule 26 (expression -> expression MINUS expression .)
+    RBR             reduce using rule 26 (expression -> expression MINUS expression .)
+    GT              reduce using rule 26 (expression -> expression MINUS expression .)
+    LT              reduce using rule 26 (expression -> expression MINUS expression .)
+    GTE             reduce using rule 26 (expression -> expression MINUS expression .)
+    LTE             reduce using rule 26 (expression -> expression MINUS expression .)
+    EQUALS          reduce using rule 26 (expression -> expression MINUS expression .)
+    RPAR            reduce using rule 26 (expression -> expression MINUS expression .)
+    LBR             reduce using rule 26 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+
+  ! TIMES           [ reduce using rule 26 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 26 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 39 ]
+  ! MINUS           [ shift and go to state 40 ]
+
+
+state 56
+
+    (22) expression -> LPAR expression RPAR .
+
+    TIMES           reduce using rule 22 (expression -> LPAR expression RPAR .)
+    DIVIDE          reduce using rule 22 (expression -> LPAR expression RPAR .)
+    PLUS            reduce using rule 22 (expression -> LPAR expression RPAR .)
+    MINUS           reduce using rule 22 (expression -> LPAR expression RPAR .)
+    FORWARD         reduce using rule 22 (expression -> LPAR expression RPAR .)
+    BACK            reduce using rule 22 (expression -> LPAR expression RPAR .)
+    RIGHT           reduce using rule 22 (expression -> LPAR expression RPAR .)
+    LEFT            reduce using rule 22 (expression -> LPAR expression RPAR .)
+    PENUP           reduce using rule 22 (expression -> LPAR expression RPAR .)
+    PENDOWN         reduce using rule 22 (expression -> LPAR expression RPAR .)
+    REPEAT          reduce using rule 22 (expression -> LPAR expression RPAR .)
+    IF              reduce using rule 22 (expression -> LPAR expression RPAR .)
+    MAKE            reduce using rule 22 (expression -> LPAR expression RPAR .)
+    PRINT           reduce using rule 22 (expression -> LPAR expression RPAR .)
+    $end            reduce using rule 22 (expression -> LPAR expression RPAR .)
+    RBR             reduce using rule 22 (expression -> LPAR expression RPAR .)
+    GT              reduce using rule 22 (expression -> LPAR expression RPAR .)
+    LT              reduce using rule 22 (expression -> LPAR expression RPAR .)
+    GTE             reduce using rule 22 (expression -> LPAR expression RPAR .)
+    LTE             reduce using rule 22 (expression -> LPAR expression RPAR .)
+    EQUALS          reduce using rule 22 (expression -> LPAR expression RPAR .)
+    RPAR            reduce using rule 22 (expression -> LPAR expression RPAR .)
+    LBR             reduce using rule 22 (expression -> LPAR expression RPAR .)
+
+
+state 57
+
+    (14) repeat_statement -> REPEAT INT LBR statement_list . RBR
+    (1) statement_list -> statement_list . statement
+    (3) statement -> . turtle_instruction
+    (4) statement -> . repeat_statement
+    (5) statement -> . if_statement
+    (6) statement -> . variable_declaration
+    (7) statement -> . print_statement
+    (8) turtle_instruction -> . FORWARD expression
+    (9) turtle_instruction -> . BACK expression
+    (10) turtle_instruction -> . RIGHT expression
+    (11) turtle_instruction -> . LEFT expression
+    (12) turtle_instruction -> . PENUP
+    (13) turtle_instruction -> . PENDOWN
+    (14) repeat_statement -> . REPEAT INT LBR statement_list RBR
+    (15) if_statement -> . IF condition LBR statement_list RBR
+    (16) variable_declaration -> . MAKE word expression
+    (17) print_statement -> . PRINT word
+    (18) print_statement -> . PRINT expression
+
+    RBR             shift and go to state 64
+    FORWARD         shift and go to state 8
+    BACK            shift and go to state 9
+    RIGHT           shift and go to state 10
+    LEFT            shift and go to state 11
+    PENUP           shift and go to state 12
+    PENDOWN         shift and go to state 13
+    REPEAT          shift and go to state 14
+    IF              shift and go to state 15
+    MAKE            shift and go to state 16
+    PRINT           shift and go to state 17
+
+    statement                      shift and go to state 18
+    turtle_instruction             shift and go to state 3
+    repeat_statement               shift and go to state 4
+    if_statement                   shift and go to state 5
+    variable_declaration           shift and go to state 6
+    print_statement                shift and go to state 7
+
+state 58
+
+    (15) if_statement -> IF condition LBR statement_list . RBR
+    (1) statement_list -> statement_list . statement
+    (3) statement -> . turtle_instruction
+    (4) statement -> . repeat_statement
+    (5) statement -> . if_statement
+    (6) statement -> . variable_declaration
+    (7) statement -> . print_statement
+    (8) turtle_instruction -> . FORWARD expression
+    (9) turtle_instruction -> . BACK expression
+    (10) turtle_instruction -> . RIGHT expression
+    (11) turtle_instruction -> . LEFT expression
+    (12) turtle_instruction -> . PENUP
+    (13) turtle_instruction -> . PENDOWN
+    (14) repeat_statement -> . REPEAT INT LBR statement_list RBR
+    (15) if_statement -> . IF condition LBR statement_list RBR
+    (16) variable_declaration -> . MAKE word expression
+    (17) print_statement -> . PRINT word
+    (18) print_statement -> . PRINT expression
+
+    RBR             shift and go to state 65
+    FORWARD         shift and go to state 8
+    BACK            shift and go to state 9
+    RIGHT           shift and go to state 10
+    LEFT            shift and go to state 11
+    PENUP           shift and go to state 12
+    PENDOWN         shift and go to state 13
+    REPEAT          shift and go to state 14
+    IF              shift and go to state 15
+    MAKE            shift and go to state 16
+    PRINT           shift and go to state 17
+
+    statement                      shift and go to state 18
+    turtle_instruction             shift and go to state 3
+    repeat_statement               shift and go to state 4
+    if_statement                   shift and go to state 5
+    variable_declaration           shift and go to state 6
+    print_statement                shift and go to state 7
+
+state 59
+
+    (29) condition -> expression GT expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    LBR             reduce using rule 29 (condition -> expression GT expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 60
+
+    (30) condition -> expression LT expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    LBR             reduce using rule 30 (condition -> expression LT expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 61
+
+    (31) condition -> expression GTE expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    LBR             reduce using rule 31 (condition -> expression GTE expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 62
+
+    (32) condition -> expression LTE expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    LBR             reduce using rule 32 (condition -> expression LTE expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 63
+
+    (33) condition -> expression EQUALS expression .
+    (23) expression -> expression . TIMES expression
+    (24) expression -> expression . DIVIDE expression
+    (25) expression -> expression . PLUS expression
+    (26) expression -> expression . MINUS expression
+
+    LBR             reduce using rule 33 (condition -> expression EQUALS expression .)
+    TIMES           shift and go to state 37
+    DIVIDE          shift and go to state 38
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 40
+
+
+state 64
+
+    (14) repeat_statement -> REPEAT INT LBR statement_list RBR .
+
+    FORWARD         reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    BACK            reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    RIGHT           reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    LEFT            reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    PENUP           reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    PENDOWN         reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    REPEAT          reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    IF              reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    MAKE            reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    PRINT           reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    $end            reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+    RBR             reduce using rule 14 (repeat_statement -> REPEAT INT LBR statement_list RBR .)
+
+
+state 65
+
+    (15) if_statement -> IF condition LBR statement_list RBR .
+
+    FORWARD         reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    BACK            reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    RIGHT           reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    LEFT            reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    PENUP           reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    PENDOWN         reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    REPEAT          reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    IF              reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    MAKE            reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    PRINT           reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    $end            reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+    RBR             reduce using rule 15 (if_statement -> IF condition LBR statement_list RBR .)
+

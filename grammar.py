@@ -1,6 +1,13 @@
-# reserved keywoards
-# tokens keywoards
+# -------------------------------------------------------------
+# logo.py
+# 
+# Logo iterpreter
+#--------------------------------------------------------------
 
+
+# Lexer
+
+# reserved keywords
 reserved = {
     'if': 'IF',
     'true': 'TRUE',
@@ -16,6 +23,7 @@ reserved = {
     'pd': 'PENDOWN'
 }
 
+# tokens keywords
 tokens = [
     'STRING', 'FLOAT', 'INT',
     'LBR', 'RBR', 'LPAR', 'RPAR', 
@@ -69,19 +77,166 @@ def t_error(t):
 import ply.lex as lex
 lexer = lex.lex()
 
+# lexer testing
+# while True:
+#     try:
+#         s = input('logo > ')
+#     except EOFError:
+#         break
+    
+#     lexer.input(s)
+    
+#     while True:
+#         tok = lexer.token()
+#         if not tok:
+#             print()
+#             break
+#         print(tok)
 
-# testing
+# -----------------------------------------------------------------------
+# Parser
+
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'TIMES', 'DIVIDE')
+)
+
+def p_statement_list(p):
+    '''
+    statement_list : statement_list statement
+                   | statement
+    '''
+    if len(p)==3:
+        p[0] = p[1] + p[2]
+    else:
+        p[0] = p[1]
+
+
+def p_statement(p):
+    '''
+    statement : turtle_instruction
+              | repeat_statement
+              | if_statement
+              | variable_declaration
+              | print_statement
+    '''
+    p[0] = [p[1]]
+
+def p_turtle_instruction(p):
+    '''
+    turtle_instruction : FORWARD expression
+                       | BACK expression
+                       | RIGHT expression
+                       | LEFT expression
+                       | PENUP
+                       | PENDOWN
+    '''
+    if len(p)==3:
+        p[0] = (p[1], p[2])
+    else:
+        p[0] = (p[1])
+
+def p_repeat_statement(p):
+    '''
+    repeat_statement : REPEAT INT LBR statement_list RBR 
+    '''
+    p[0] = (p[1], p[2], p[4])
+
+def p_if_statement(p):
+    '''
+    if_statement : IF condition LBR statement_list RBR
+    '''
+    p[0] = (p[1], p[2], p[4])
+
+def p_variable_declaration(p):
+    '''
+    variable_declaration : MAKE word expression
+    '''
+    p[0] = (p[1], p[2], p[3])
+
+def p_print_statement_word(p):
+    '''
+    print_statement : PRINT word
+    '''
+    p[0] = ('print_word', p[2])
+
+def p_print_statement_expression(p):
+    '''
+    print_statement : PRINT expression
+    '''
+    p[0] = ('print_expr', p[2])
+
+def p_expression_int_float(p):
+    '''
+    expression : INT
+               | FLOAT
+    '''
+    p[0] = p[1]
+
+def p_expression_var(p):
+    '''
+    expression : name
+    '''
+    p[0] = ('var', p[1])
+
+def p_expression_group(p):
+    '''
+    expression : LPAR expression RPAR
+    '''
+    p[0] = p[2]
+
+def p_expression(p):
+    '''
+    expression : expression TIMES expression
+               | expression DIVIDE expression
+               | expression PLUS expression
+               | expression MINUS expression
+    '''
+    p[0] = (p[2], p[1], p[3])
+
+def p_condition_true_false(p):
+    '''
+    condition : TRUE
+              | FALSE
+    '''
+    value = p[1]=='true'
+    p[0] = value
+
+def p_condition(p):
+    '''
+    condition : expression GT expression
+              | expression LT expression
+              | expression GTE expression
+              | expression LTE expression
+              | expression EQUALS expression
+    '''
+    p[0] = (p[2], p[1], p[3])
+
+def p_word(p):
+    '''
+    word : QUOTE STRING
+    '''
+    p[0] = p[2]
+
+def p_name(p):
+    '''
+    name : COLON STRING
+    '''
+    p[0] = p[2]
+
+def p_error(p):
+    print(f"Syntax error at {p.value!r}")
+
+
+# build the parser
+import ply.yacc as yacc
+parser = yacc.yacc()
+
+# parser testing
 while True:
     try:
         s = input('logo > ')
     except EOFError:
         break
-    
-    lexer.input(s)
-    
-    while True:
-        tok = lexer.token()
-        if not tok:
-            print()
-            break
-        print(tok)
+    p = parser.parse(s)
+    print(p)

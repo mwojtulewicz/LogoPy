@@ -238,5 +238,7 @@ while True:
         s = input('logo > ')
     except EOFError:
         break
+    lexer.input(s)
+    print('tokens : ',[(tok.type, tok.value) for tok in lexer])
     p = parser.parse(s)
-    print(p)
+    print('AST    : ', p)

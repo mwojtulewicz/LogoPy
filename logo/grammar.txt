@@ -56,7 +56,7 @@ turtle_instruction :
     | PENDOWN
 
 repeat_statement :
-    REPEAT INT LBR statement_list RBR
+    REPEAT expression LBR statement_list RBR
 
 if_statement :
     IF condition LBR statement_list RBR

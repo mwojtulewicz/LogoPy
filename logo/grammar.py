@@ -120,7 +120,7 @@ def p_turtle_instruction(p):
 
 def p_repeat_statement(p):
     '''
-    repeat_statement : REPEAT INT LBR statement_list RBR 
+    repeat_statement : REPEAT expression LBR statement_list RBR 
     '''
     p[0] = (p[1], p[2], p[4])
 
@@ -171,7 +171,10 @@ def p_expression_uminus(p):
     '''
     expression : MINUS expression %prec UMINUS
     '''
-    p[0] = -p[2]
+    if type(p[2]) is tuple:
+        p[0] = ('UMINUS', p[2])
+    else:
+        p[0] = -p[2]
 
 def p_expression(p):
     '''
@@ -231,14 +234,14 @@ parser = yacc.yacc()
 # main loop
 while True:
     try:
-        s = input('logo > ')
+        s = input('\nlogo > ')
     except EOFError:
         break
     
     # lexer
     lexer.input(s)
-    print('tokens : ',[(tok.type, tok.value) for tok in lexer])
+    print('\ntokens : ',[(tok.type, tok.value) for tok in lexer])
     
     # parser
     p = parser.parse(s, lexer=lexer)
-    print('AST    : ', p)
+    print('\nAST    : ', p)

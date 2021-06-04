@@ -1,0 +1,1 @@
+make "x 1 make "y -:x+1 repeat :x+:y [fd (10-8)*3 print "hello] if :x>-12 [print "prawda]

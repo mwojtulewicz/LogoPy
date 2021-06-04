@@ -175,7 +175,7 @@ def p_expression_uminus(p):
     expression : MINUS expression %prec UMINUS
     '''
     if type(p[2]) is tuple:
-        p[0] = ('UMINUS', p[2])
+        p[0] = ('uminus', p[2])
     else:
         p[0] = -p[2]
 
@@ -225,7 +225,101 @@ def p_error(p):
 
 
 # ----------------------------------------------------------------------
-# using
+# Interpreter
+
+from math import exp
+import turtle
+
+s = turtle.getscreen()
+turtle.title('LogoPy')
+t = turtle.Turtle()
+t.shape("turtle")
+t.speed(10)
+
+env = { }
+
+def run(program):
+    for statement in program:
+        execute(statement)
+
+def execute(s):
+    global env
+    fun = s[0]
+    # turtle instruction
+    if fun == 'fd':
+        t.forward(s[1])
+    elif fun == 'bk':
+        t.back(s[1])
+    elif fun == 'rt':
+        t.right(s[1])
+    elif fun == 'lt':
+        t.left(s[1])
+    elif fun == 'pu':
+        t.penup()
+    elif fun == 'pd':
+        t.pendown()
+    # repeat
+    elif fun == 'repeat':
+        for i in range(0, int(calc(s[1]))):
+            run(s[2])
+    # if
+    elif fun == 'if':
+        if eval(s[1]):
+            run(s[2])
+    # variable declaration
+    elif fun == 'make':
+        env[s[1]] = calc(s[2])
+    # print
+    elif fun == 'print_word':
+        print(s[1])
+    elif fun == 'print_expr':
+        print(calc(s[1]))
+
+def calc(e):
+    global env
+    if type(e) == tuple:
+        id = e[0]
+        if id == '+':
+            return calc(e[1]) + calc(e[2])
+        elif id == '-':
+            return calc(e[1]) - calc(e[2])
+        elif id == '*':
+            return calc(e[1]) * calc(e[2])
+        elif id == '/':
+            return calc(e[1]) / calc(e[2])
+        elif id == '^':
+            return calc(e[1]) ** calc(e[2])
+        elif id == 'var':
+            try:
+                return env[e[1]]
+            except LookupError:
+                print(f"Undefined variable {e[1]}")
+                return
+        elif id == 'uminus':
+            return (-1) * calc(e[1])
+    else:
+        return e
+
+def eval(c):
+    if type(c) != tuple:
+        return c
+    else:
+        op = c[0]
+        if op == '>':
+            return calc(c[1]) > calc(c[2])
+        elif op == '<':
+            return calc(c[1]) < calc(c[2])
+        elif op == '>=':
+            return calc(c[1]) >= calc(c[2])
+        elif op == '<=':
+            return calc(c[1]) <= calc(c[2])
+        elif op == '=':
+            return calc(c[1]) < calc(c[2])
+        elif op == '!=':
+            return calc(c[1]) != calc(c[2])
+
+# ----------------------------------------------------------------------
+# main
 
 
 # build the lexer
@@ -250,3 +344,6 @@ while True:
     # parser
     p = parser.parse(s, lexer=lexer)
     print('\nAST    : ', p)
+
+    # excecute
+    run(p)

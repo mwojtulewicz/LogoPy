@@ -30,54 +30,58 @@ Rule 24    expression -> expression TIMES expression
 Rule 25    expression -> expression DIVIDE expression
 Rule 26    expression -> expression PLUS expression
 Rule 27    expression -> expression MINUS expression
-Rule 28    condition -> TRUE
-Rule 29    condition -> FALSE
-Rule 30    condition -> expression GT expression
-Rule 31    condition -> expression LT expression
-Rule 32    condition -> expression GTE expression
-Rule 33    condition -> expression LTE expression
-Rule 34    condition -> expression EQUALS expression
-Rule 35    word -> QUOTE STRING
-Rule 36    name -> COLON STRING
+Rule 28    expression -> expression POWER expression
+Rule 29    condition -> TRUE
+Rule 30    condition -> FALSE
+Rule 31    condition -> expression GT expression
+Rule 32    condition -> expression LT expression
+Rule 33    condition -> expression GTE expression
+Rule 34    condition -> expression LTE expression
+Rule 35    condition -> expression EQUALS expression
+Rule 36    condition -> expression NE expression
+Rule 37    word -> QUOTE STRING
+Rule 38    name -> COLON STRING
 
 Terminals, with rules where they appear
 
 BACK                 : 9
-COLON                : 36
+COLON                : 38
 DIVIDE               : 25
-EQUALS               : 34
-FALSE                : 29
+EQUALS               : 35
+FALSE                : 30
 FLOAT                : 20
 FORWARD              : 8
-GT                   : 30
-GTE                  : 32
+GT                   : 31
+GTE                  : 33
 IF                   : 15
 INT                  : 19
 LBR                  : 14 15
 LEFT                 : 11
 LPAR                 : 22
-LT                   : 31
-LTE                  : 33
+LT                   : 32
+LTE                  : 34
 MAKE                 : 16
 MINUS                : 23 27
+NE                   : 36
 PENDOWN              : 13
 PENUP                : 12
 PLUS                 : 26
+POWER                : 28
 PRINT                : 17 18
-QUOTE                : 35
+QUOTE                : 37
 RBR                  : 14 15
 REPEAT               : 14
 RIGHT                : 10
 RPAR                 : 22
-STRING               : 35 36
+STRING               : 37 38
 TIMES                : 24
-TRUE                 : 28
+TRUE                 : 29
 error                : 
 
 Nonterminals, with rules where they appear
 
 condition            : 15
-expression           : 8 9 10 11 14 16 18 22 23 24 24 25 25 26 26 27 27 30 30 31 31 32 32 33 33 34 34
+expression           : 8 9 10 11 14 16 18 22 23 24 24 25 25 26 26 27 27 28 28 31 31 32 32 33 33 34 34 35 35 36 36
 if_statement         : 5
 name                 : 21
 print_statement      : 7
@@ -290,7 +294,8 @@ state 8
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -313,7 +318,8 @@ state 9
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -336,7 +342,8 @@ state 10
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -359,7 +366,8 @@ state 11
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -418,7 +426,8 @@ state 14
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -432,13 +441,14 @@ state 14
 state 15
 
     (15) if_statement -> IF . condition LBR statement_list RBR
-    (28) condition -> . TRUE
-    (29) condition -> . FALSE
-    (30) condition -> . expression GT expression
-    (31) condition -> . expression LT expression
-    (32) condition -> . expression GTE expression
-    (33) condition -> . expression LTE expression
-    (34) condition -> . expression EQUALS expression
+    (29) condition -> . TRUE
+    (30) condition -> . FALSE
+    (31) condition -> . expression GT expression
+    (32) condition -> . expression LT expression
+    (33) condition -> . expression GTE expression
+    (34) condition -> . expression LTE expression
+    (35) condition -> . expression EQUALS expression
+    (36) condition -> . expression NE expression
     (19) expression -> . INT
     (20) expression -> . FLOAT
     (21) expression -> . name
@@ -448,7 +458,8 @@ state 15
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     TRUE            shift and go to state 31
     FALSE           shift and go to state 32
@@ -465,7 +476,7 @@ state 15
 state 16
 
     (16) variable_declaration -> MAKE . word expression
-    (35) word -> . QUOTE STRING
+    (37) word -> . QUOTE STRING
 
     QUOTE           shift and go to state 35
 
@@ -475,7 +486,7 @@ state 17
 
     (17) print_statement -> PRINT . word
     (18) print_statement -> PRINT . expression
-    (35) word -> . QUOTE STRING
+    (37) word -> . QUOTE STRING
     (19) expression -> . INT
     (20) expression -> . FLOAT
     (21) expression -> . name
@@ -485,7 +496,8 @@ state 17
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     QUOTE           shift and go to state 35
     INT             shift and go to state 20
@@ -523,6 +535,7 @@ state 19
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     FORWARD         reduce using rule 8 (turtle_instruction -> FORWARD expression .)
     BACK            reduce using rule 8 (turtle_instruction -> FORWARD expression .)
@@ -540,6 +553,7 @@ state 19
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 20
@@ -550,6 +564,7 @@ state 20
     DIVIDE          reduce using rule 19 (expression -> INT .)
     PLUS            reduce using rule 19 (expression -> INT .)
     MINUS           reduce using rule 19 (expression -> INT .)
+    POWER           reduce using rule 19 (expression -> INT .)
     FORWARD         reduce using rule 19 (expression -> INT .)
     BACK            reduce using rule 19 (expression -> INT .)
     RIGHT           reduce using rule 19 (expression -> INT .)
@@ -568,6 +583,7 @@ state 20
     GTE             reduce using rule 19 (expression -> INT .)
     LTE             reduce using rule 19 (expression -> INT .)
     EQUALS          reduce using rule 19 (expression -> INT .)
+    NE              reduce using rule 19 (expression -> INT .)
     RPAR            reduce using rule 19 (expression -> INT .)
 
 
@@ -579,6 +595,7 @@ state 21
     DIVIDE          reduce using rule 20 (expression -> FLOAT .)
     PLUS            reduce using rule 20 (expression -> FLOAT .)
     MINUS           reduce using rule 20 (expression -> FLOAT .)
+    POWER           reduce using rule 20 (expression -> FLOAT .)
     FORWARD         reduce using rule 20 (expression -> FLOAT .)
     BACK            reduce using rule 20 (expression -> FLOAT .)
     RIGHT           reduce using rule 20 (expression -> FLOAT .)
@@ -597,6 +614,7 @@ state 21
     GTE             reduce using rule 20 (expression -> FLOAT .)
     LTE             reduce using rule 20 (expression -> FLOAT .)
     EQUALS          reduce using rule 20 (expression -> FLOAT .)
+    NE              reduce using rule 20 (expression -> FLOAT .)
     RPAR            reduce using rule 20 (expression -> FLOAT .)
 
 
@@ -608,6 +626,7 @@ state 22
     DIVIDE          reduce using rule 21 (expression -> name .)
     PLUS            reduce using rule 21 (expression -> name .)
     MINUS           reduce using rule 21 (expression -> name .)
+    POWER           reduce using rule 21 (expression -> name .)
     FORWARD         reduce using rule 21 (expression -> name .)
     BACK            reduce using rule 21 (expression -> name .)
     RIGHT           reduce using rule 21 (expression -> name .)
@@ -626,6 +645,7 @@ state 22
     GTE             reduce using rule 21 (expression -> name .)
     LTE             reduce using rule 21 (expression -> name .)
     EQUALS          reduce using rule 21 (expression -> name .)
+    NE              reduce using rule 21 (expression -> name .)
     RPAR            reduce using rule 21 (expression -> name .)
 
 
@@ -641,7 +661,8 @@ state 23
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -649,7 +670,7 @@ state 23
     MINUS           shift and go to state 24
     COLON           shift and go to state 25
 
-    expression                     shift and go to state 42
+    expression                     shift and go to state 43
     name                           shift and go to state 22
 
 state 24
@@ -664,7 +685,8 @@ state 24
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -672,14 +694,14 @@ state 24
     MINUS           shift and go to state 24
     COLON           shift and go to state 25
 
-    expression                     shift and go to state 43
+    expression                     shift and go to state 44
     name                           shift and go to state 22
 
 state 25
 
-    (36) name -> COLON . STRING
+    (38) name -> COLON . STRING
 
-    STRING          shift and go to state 44
+    STRING          shift and go to state 45
 
 
 state 26
@@ -689,6 +711,7 @@ state 26
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     FORWARD         reduce using rule 9 (turtle_instruction -> BACK expression .)
     BACK            reduce using rule 9 (turtle_instruction -> BACK expression .)
@@ -706,6 +729,7 @@ state 26
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 27
@@ -715,6 +739,7 @@ state 27
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     FORWARD         reduce using rule 10 (turtle_instruction -> RIGHT expression .)
     BACK            reduce using rule 10 (turtle_instruction -> RIGHT expression .)
@@ -732,6 +757,7 @@ state 27
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 28
@@ -741,6 +767,7 @@ state 28
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     FORWARD         reduce using rule 11 (turtle_instruction -> LEFT expression .)
     BACK            reduce using rule 11 (turtle_instruction -> LEFT expression .)
@@ -758,6 +785,7 @@ state 28
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 29
@@ -767,56 +795,62 @@ state 29
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
-    LBR             shift and go to state 45
+    LBR             shift and go to state 46
     TIMES           shift and go to state 38
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 30
 
     (15) if_statement -> IF condition . LBR statement_list RBR
 
-    LBR             shift and go to state 46
+    LBR             shift and go to state 47
 
 
 state 31
 
-    (28) condition -> TRUE .
+    (29) condition -> TRUE .
 
-    LBR             reduce using rule 28 (condition -> TRUE .)
+    LBR             reduce using rule 29 (condition -> TRUE .)
 
 
 state 32
 
-    (29) condition -> FALSE .
+    (30) condition -> FALSE .
 
-    LBR             reduce using rule 29 (condition -> FALSE .)
+    LBR             reduce using rule 30 (condition -> FALSE .)
 
 
 state 33
 
-    (30) condition -> expression . GT expression
-    (31) condition -> expression . LT expression
-    (32) condition -> expression . GTE expression
-    (33) condition -> expression . LTE expression
-    (34) condition -> expression . EQUALS expression
+    (31) condition -> expression . GT expression
+    (32) condition -> expression . LT expression
+    (33) condition -> expression . GTE expression
+    (34) condition -> expression . LTE expression
+    (35) condition -> expression . EQUALS expression
+    (36) condition -> expression . NE expression
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
-    GT              shift and go to state 47
-    LT              shift and go to state 48
-    GTE             shift and go to state 49
-    LTE             shift and go to state 50
-    EQUALS          shift and go to state 51
+    GT              shift and go to state 48
+    LT              shift and go to state 49
+    GTE             shift and go to state 50
+    LTE             shift and go to state 51
+    EQUALS          shift and go to state 52
+    NE              shift and go to state 53
     TIMES           shift and go to state 38
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 34
@@ -831,7 +865,8 @@ state 34
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -839,14 +874,14 @@ state 34
     MINUS           shift and go to state 24
     COLON           shift and go to state 25
 
-    expression                     shift and go to state 52
+    expression                     shift and go to state 54
     name                           shift and go to state 22
 
 state 35
 
-    (35) word -> QUOTE . STRING
+    (37) word -> QUOTE . STRING
 
-    STRING          shift and go to state 53
+    STRING          shift and go to state 55
 
 
 state 36
@@ -874,6 +909,7 @@ state 37
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     FORWARD         reduce using rule 18 (print_statement -> PRINT expression .)
     BACK            reduce using rule 18 (print_statement -> PRINT expression .)
@@ -891,6 +927,7 @@ state 37
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 38
@@ -905,7 +942,8 @@ state 38
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -913,7 +951,7 @@ state 38
     MINUS           shift and go to state 24
     COLON           shift and go to state 25
 
-    expression                     shift and go to state 54
+    expression                     shift and go to state 56
     name                           shift and go to state 22
 
 state 39
@@ -928,7 +966,8 @@ state 39
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -936,7 +975,7 @@ state 39
     MINUS           shift and go to state 24
     COLON           shift and go to state 25
 
-    expression                     shift and go to state 55
+    expression                     shift and go to state 57
     name                           shift and go to state 22
 
 state 40
@@ -951,7 +990,8 @@ state 40
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -959,7 +999,7 @@ state 40
     MINUS           shift and go to state 24
     COLON           shift and go to state 25
 
-    expression                     shift and go to state 56
+    expression                     shift and go to state 58
     name                           shift and go to state 22
 
 state 41
@@ -974,7 +1014,8 @@ state 41
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -982,36 +1023,64 @@ state 41
     MINUS           shift and go to state 24
     COLON           shift and go to state 25
 
-    expression                     shift and go to state 57
+    expression                     shift and go to state 59
     name                           shift and go to state 22
 
 state 42
+
+    (28) expression -> expression POWER . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    MINUS           shift and go to state 24
+    COLON           shift and go to state 25
+
+    expression                     shift and go to state 60
+    name                           shift and go to state 22
+
+state 43
 
     (22) expression -> LPAR expression . RPAR
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
-    RPAR            shift and go to state 58
+    RPAR            shift and go to state 61
     TIMES           shift and go to state 38
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
-state 43
+state 44
 
     (23) expression -> MINUS expression .
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     TIMES           reduce using rule 23 (expression -> MINUS expression .)
     DIVIDE          reduce using rule 23 (expression -> MINUS expression .)
     PLUS            reduce using rule 23 (expression -> MINUS expression .)
     MINUS           reduce using rule 23 (expression -> MINUS expression .)
+    POWER           reduce using rule 23 (expression -> MINUS expression .)
     FORWARD         reduce using rule 23 (expression -> MINUS expression .)
     BACK            reduce using rule 23 (expression -> MINUS expression .)
     RIGHT           reduce using rule 23 (expression -> MINUS expression .)
@@ -1030,44 +1099,48 @@ state 43
     GTE             reduce using rule 23 (expression -> MINUS expression .)
     LTE             reduce using rule 23 (expression -> MINUS expression .)
     EQUALS          reduce using rule 23 (expression -> MINUS expression .)
+    NE              reduce using rule 23 (expression -> MINUS expression .)
     RPAR            reduce using rule 23 (expression -> MINUS expression .)
 
   ! TIMES           [ shift and go to state 38 ]
   ! DIVIDE          [ shift and go to state 39 ]
   ! PLUS            [ shift and go to state 40 ]
   ! MINUS           [ shift and go to state 41 ]
-
-
-state 44
-
-    (36) name -> COLON STRING .
-
-    TIMES           reduce using rule 36 (name -> COLON STRING .)
-    DIVIDE          reduce using rule 36 (name -> COLON STRING .)
-    PLUS            reduce using rule 36 (name -> COLON STRING .)
-    MINUS           reduce using rule 36 (name -> COLON STRING .)
-    FORWARD         reduce using rule 36 (name -> COLON STRING .)
-    BACK            reduce using rule 36 (name -> COLON STRING .)
-    RIGHT           reduce using rule 36 (name -> COLON STRING .)
-    LEFT            reduce using rule 36 (name -> COLON STRING .)
-    PENUP           reduce using rule 36 (name -> COLON STRING .)
-    PENDOWN         reduce using rule 36 (name -> COLON STRING .)
-    REPEAT          reduce using rule 36 (name -> COLON STRING .)
-    IF              reduce using rule 36 (name -> COLON STRING .)
-    MAKE            reduce using rule 36 (name -> COLON STRING .)
-    PRINT           reduce using rule 36 (name -> COLON STRING .)
-    $end            reduce using rule 36 (name -> COLON STRING .)
-    RBR             reduce using rule 36 (name -> COLON STRING .)
-    LBR             reduce using rule 36 (name -> COLON STRING .)
-    GT              reduce using rule 36 (name -> COLON STRING .)
-    LT              reduce using rule 36 (name -> COLON STRING .)
-    GTE             reduce using rule 36 (name -> COLON STRING .)
-    LTE             reduce using rule 36 (name -> COLON STRING .)
-    EQUALS          reduce using rule 36 (name -> COLON STRING .)
-    RPAR            reduce using rule 36 (name -> COLON STRING .)
+  ! POWER           [ shift and go to state 42 ]
 
 
 state 45
+
+    (38) name -> COLON STRING .
+
+    TIMES           reduce using rule 38 (name -> COLON STRING .)
+    DIVIDE          reduce using rule 38 (name -> COLON STRING .)
+    PLUS            reduce using rule 38 (name -> COLON STRING .)
+    MINUS           reduce using rule 38 (name -> COLON STRING .)
+    POWER           reduce using rule 38 (name -> COLON STRING .)
+    FORWARD         reduce using rule 38 (name -> COLON STRING .)
+    BACK            reduce using rule 38 (name -> COLON STRING .)
+    RIGHT           reduce using rule 38 (name -> COLON STRING .)
+    LEFT            reduce using rule 38 (name -> COLON STRING .)
+    PENUP           reduce using rule 38 (name -> COLON STRING .)
+    PENDOWN         reduce using rule 38 (name -> COLON STRING .)
+    REPEAT          reduce using rule 38 (name -> COLON STRING .)
+    IF              reduce using rule 38 (name -> COLON STRING .)
+    MAKE            reduce using rule 38 (name -> COLON STRING .)
+    PRINT           reduce using rule 38 (name -> COLON STRING .)
+    $end            reduce using rule 38 (name -> COLON STRING .)
+    RBR             reduce using rule 38 (name -> COLON STRING .)
+    LBR             reduce using rule 38 (name -> COLON STRING .)
+    GT              reduce using rule 38 (name -> COLON STRING .)
+    LT              reduce using rule 38 (name -> COLON STRING .)
+    GTE             reduce using rule 38 (name -> COLON STRING .)
+    LTE             reduce using rule 38 (name -> COLON STRING .)
+    EQUALS          reduce using rule 38 (name -> COLON STRING .)
+    NE              reduce using rule 38 (name -> COLON STRING .)
+    RPAR            reduce using rule 38 (name -> COLON STRING .)
+
+
+state 46
 
     (14) repeat_statement -> REPEAT expression LBR . statement_list RBR
     (1) statement_list -> . statement_list statement
@@ -1100,7 +1173,7 @@ state 45
     MAKE            shift and go to state 16
     PRINT           shift and go to state 17
 
-    statement_list                 shift and go to state 59
+    statement_list                 shift and go to state 62
     statement                      shift and go to state 2
     turtle_instruction             shift and go to state 3
     repeat_statement               shift and go to state 4
@@ -1108,7 +1181,7 @@ state 45
     variable_declaration           shift and go to state 6
     print_statement                shift and go to state 7
 
-state 46
+state 47
 
     (15) if_statement -> IF condition LBR . statement_list RBR
     (1) statement_list -> . statement_list statement
@@ -1141,7 +1214,7 @@ state 46
     MAKE            shift and go to state 16
     PRINT           shift and go to state 17
 
-    statement_list                 shift and go to state 60
+    statement_list                 shift and go to state 63
     statement                      shift and go to state 2
     turtle_instruction             shift and go to state 3
     repeat_statement               shift and go to state 4
@@ -1149,32 +1222,9 @@ state 46
     variable_declaration           shift and go to state 6
     print_statement                shift and go to state 7
 
-state 47
-
-    (30) condition -> expression GT . expression
-    (19) expression -> . INT
-    (20) expression -> . FLOAT
-    (21) expression -> . name
-    (22) expression -> . LPAR expression RPAR
-    (23) expression -> . MINUS expression
-    (24) expression -> . expression TIMES expression
-    (25) expression -> . expression DIVIDE expression
-    (26) expression -> . expression PLUS expression
-    (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
-
-    INT             shift and go to state 20
-    FLOAT           shift and go to state 21
-    LPAR            shift and go to state 23
-    MINUS           shift and go to state 24
-    COLON           shift and go to state 25
-
-    expression                     shift and go to state 61
-    name                           shift and go to state 22
-
 state 48
 
-    (31) condition -> expression LT . expression
+    (31) condition -> expression GT . expression
     (19) expression -> . INT
     (20) expression -> . FLOAT
     (21) expression -> . name
@@ -1184,53 +1234,8 @@ state 48
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
-
-    INT             shift and go to state 20
-    FLOAT           shift and go to state 21
-    LPAR            shift and go to state 23
-    MINUS           shift and go to state 24
-    COLON           shift and go to state 25
-
-    expression                     shift and go to state 62
-    name                           shift and go to state 22
-
-state 49
-
-    (32) condition -> expression GTE . expression
-    (19) expression -> . INT
-    (20) expression -> . FLOAT
-    (21) expression -> . name
-    (22) expression -> . LPAR expression RPAR
-    (23) expression -> . MINUS expression
-    (24) expression -> . expression TIMES expression
-    (25) expression -> . expression DIVIDE expression
-    (26) expression -> . expression PLUS expression
-    (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
-
-    INT             shift and go to state 20
-    FLOAT           shift and go to state 21
-    LPAR            shift and go to state 23
-    MINUS           shift and go to state 24
-    COLON           shift and go to state 25
-
-    expression                     shift and go to state 63
-    name                           shift and go to state 22
-
-state 50
-
-    (33) condition -> expression LTE . expression
-    (19) expression -> . INT
-    (20) expression -> . FLOAT
-    (21) expression -> . name
-    (22) expression -> . LPAR expression RPAR
-    (23) expression -> . MINUS expression
-    (24) expression -> . expression TIMES expression
-    (25) expression -> . expression DIVIDE expression
-    (26) expression -> . expression PLUS expression
-    (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -1241,9 +1246,9 @@ state 50
     expression                     shift and go to state 64
     name                           shift and go to state 22
 
-state 51
+state 49
 
-    (34) condition -> expression EQUALS . expression
+    (32) condition -> expression LT . expression
     (19) expression -> . INT
     (20) expression -> . FLOAT
     (21) expression -> . name
@@ -1253,7 +1258,8 @@ state 51
     (25) expression -> . expression DIVIDE expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
-    (36) name -> . COLON STRING
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
 
     INT             shift and go to state 20
     FLOAT           shift and go to state 21
@@ -1264,13 +1270,110 @@ state 51
     expression                     shift and go to state 65
     name                           shift and go to state 22
 
+state 50
+
+    (33) condition -> expression GTE . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    MINUS           shift and go to state 24
+    COLON           shift and go to state 25
+
+    expression                     shift and go to state 66
+    name                           shift and go to state 22
+
+state 51
+
+    (34) condition -> expression LTE . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    MINUS           shift and go to state 24
+    COLON           shift and go to state 25
+
+    expression                     shift and go to state 67
+    name                           shift and go to state 22
+
 state 52
+
+    (35) condition -> expression EQUALS . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    MINUS           shift and go to state 24
+    COLON           shift and go to state 25
+
+    expression                     shift and go to state 68
+    name                           shift and go to state 22
+
+state 53
+
+    (36) condition -> expression NE . expression
+    (19) expression -> . INT
+    (20) expression -> . FLOAT
+    (21) expression -> . name
+    (22) expression -> . LPAR expression RPAR
+    (23) expression -> . MINUS expression
+    (24) expression -> . expression TIMES expression
+    (25) expression -> . expression DIVIDE expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression POWER expression
+    (38) name -> . COLON STRING
+
+    INT             shift and go to state 20
+    FLOAT           shift and go to state 21
+    LPAR            shift and go to state 23
+    MINUS           shift and go to state 24
+    COLON           shift and go to state 25
+
+    expression                     shift and go to state 69
+    name                           shift and go to state 22
+
+state 54
 
     (16) variable_declaration -> MAKE word expression .
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     FORWARD         reduce using rule 16 (variable_declaration -> MAKE word expression .)
     BACK            reduce using rule 16 (variable_declaration -> MAKE word expression .)
@@ -1288,38 +1391,40 @@ state 52
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
-state 53
+state 55
 
-    (35) word -> QUOTE STRING .
+    (37) word -> QUOTE STRING .
 
-    INT             reduce using rule 35 (word -> QUOTE STRING .)
-    FLOAT           reduce using rule 35 (word -> QUOTE STRING .)
-    LPAR            reduce using rule 35 (word -> QUOTE STRING .)
-    MINUS           reduce using rule 35 (word -> QUOTE STRING .)
-    COLON           reduce using rule 35 (word -> QUOTE STRING .)
-    FORWARD         reduce using rule 35 (word -> QUOTE STRING .)
-    BACK            reduce using rule 35 (word -> QUOTE STRING .)
-    RIGHT           reduce using rule 35 (word -> QUOTE STRING .)
-    LEFT            reduce using rule 35 (word -> QUOTE STRING .)
-    PENUP           reduce using rule 35 (word -> QUOTE STRING .)
-    PENDOWN         reduce using rule 35 (word -> QUOTE STRING .)
-    REPEAT          reduce using rule 35 (word -> QUOTE STRING .)
-    IF              reduce using rule 35 (word -> QUOTE STRING .)
-    MAKE            reduce using rule 35 (word -> QUOTE STRING .)
-    PRINT           reduce using rule 35 (word -> QUOTE STRING .)
-    $end            reduce using rule 35 (word -> QUOTE STRING .)
-    RBR             reduce using rule 35 (word -> QUOTE STRING .)
+    INT             reduce using rule 37 (word -> QUOTE STRING .)
+    FLOAT           reduce using rule 37 (word -> QUOTE STRING .)
+    LPAR            reduce using rule 37 (word -> QUOTE STRING .)
+    MINUS           reduce using rule 37 (word -> QUOTE STRING .)
+    COLON           reduce using rule 37 (word -> QUOTE STRING .)
+    FORWARD         reduce using rule 37 (word -> QUOTE STRING .)
+    BACK            reduce using rule 37 (word -> QUOTE STRING .)
+    RIGHT           reduce using rule 37 (word -> QUOTE STRING .)
+    LEFT            reduce using rule 37 (word -> QUOTE STRING .)
+    PENUP           reduce using rule 37 (word -> QUOTE STRING .)
+    PENDOWN         reduce using rule 37 (word -> QUOTE STRING .)
+    REPEAT          reduce using rule 37 (word -> QUOTE STRING .)
+    IF              reduce using rule 37 (word -> QUOTE STRING .)
+    MAKE            reduce using rule 37 (word -> QUOTE STRING .)
+    PRINT           reduce using rule 37 (word -> QUOTE STRING .)
+    $end            reduce using rule 37 (word -> QUOTE STRING .)
+    RBR             reduce using rule 37 (word -> QUOTE STRING .)
 
 
-state 54
+state 56
 
     (24) expression -> expression TIMES expression .
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     TIMES           reduce using rule 24 (expression -> expression TIMES expression .)
     DIVIDE          reduce using rule 24 (expression -> expression TIMES expression .)
@@ -1343,21 +1448,25 @@ state 54
     GTE             reduce using rule 24 (expression -> expression TIMES expression .)
     LTE             reduce using rule 24 (expression -> expression TIMES expression .)
     EQUALS          reduce using rule 24 (expression -> expression TIMES expression .)
+    NE              reduce using rule 24 (expression -> expression TIMES expression .)
     RPAR            reduce using rule 24 (expression -> expression TIMES expression .)
+    POWER           shift and go to state 42
 
+  ! POWER           [ reduce using rule 24 (expression -> expression TIMES expression .) ]
   ! TIMES           [ shift and go to state 38 ]
   ! DIVIDE          [ shift and go to state 39 ]
   ! PLUS            [ shift and go to state 40 ]
   ! MINUS           [ shift and go to state 41 ]
 
 
-state 55
+state 57
 
     (25) expression -> expression DIVIDE expression .
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     TIMES           reduce using rule 25 (expression -> expression DIVIDE expression .)
     DIVIDE          reduce using rule 25 (expression -> expression DIVIDE expression .)
@@ -1381,21 +1490,25 @@ state 55
     GTE             reduce using rule 25 (expression -> expression DIVIDE expression .)
     LTE             reduce using rule 25 (expression -> expression DIVIDE expression .)
     EQUALS          reduce using rule 25 (expression -> expression DIVIDE expression .)
+    NE              reduce using rule 25 (expression -> expression DIVIDE expression .)
     RPAR            reduce using rule 25 (expression -> expression DIVIDE expression .)
+    POWER           shift and go to state 42
 
+  ! POWER           [ reduce using rule 25 (expression -> expression DIVIDE expression .) ]
   ! TIMES           [ shift and go to state 38 ]
   ! DIVIDE          [ shift and go to state 39 ]
   ! PLUS            [ shift and go to state 40 ]
   ! MINUS           [ shift and go to state 41 ]
 
 
-state 56
+state 58
 
     (26) expression -> expression PLUS expression .
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     PLUS            reduce using rule 26 (expression -> expression PLUS expression .)
     MINUS           reduce using rule 26 (expression -> expression PLUS expression .)
@@ -1417,23 +1530,27 @@ state 56
     GTE             reduce using rule 26 (expression -> expression PLUS expression .)
     LTE             reduce using rule 26 (expression -> expression PLUS expression .)
     EQUALS          reduce using rule 26 (expression -> expression PLUS expression .)
+    NE              reduce using rule 26 (expression -> expression PLUS expression .)
     RPAR            reduce using rule 26 (expression -> expression PLUS expression .)
     TIMES           shift and go to state 38
     DIVIDE          shift and go to state 39
+    POWER           shift and go to state 42
 
   ! TIMES           [ reduce using rule 26 (expression -> expression PLUS expression .) ]
   ! DIVIDE          [ reduce using rule 26 (expression -> expression PLUS expression .) ]
+  ! POWER           [ reduce using rule 26 (expression -> expression PLUS expression .) ]
   ! PLUS            [ shift and go to state 40 ]
   ! MINUS           [ shift and go to state 41 ]
 
 
-state 57
+state 59
 
     (27) expression -> expression MINUS expression .
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
     PLUS            reduce using rule 27 (expression -> expression MINUS expression .)
     MINUS           reduce using rule 27 (expression -> expression MINUS expression .)
@@ -1455,17 +1572,62 @@ state 57
     GTE             reduce using rule 27 (expression -> expression MINUS expression .)
     LTE             reduce using rule 27 (expression -> expression MINUS expression .)
     EQUALS          reduce using rule 27 (expression -> expression MINUS expression .)
+    NE              reduce using rule 27 (expression -> expression MINUS expression .)
     RPAR            reduce using rule 27 (expression -> expression MINUS expression .)
     TIMES           shift and go to state 38
     DIVIDE          shift and go to state 39
+    POWER           shift and go to state 42
 
   ! TIMES           [ reduce using rule 27 (expression -> expression MINUS expression .) ]
   ! DIVIDE          [ reduce using rule 27 (expression -> expression MINUS expression .) ]
+  ! POWER           [ reduce using rule 27 (expression -> expression MINUS expression .) ]
   ! PLUS            [ shift and go to state 40 ]
   ! MINUS           [ shift and go to state 41 ]
 
 
-state 58
+state 60
+
+    (28) expression -> expression POWER expression .
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
+
+    TIMES           reduce using rule 28 (expression -> expression POWER expression .)
+    DIVIDE          reduce using rule 28 (expression -> expression POWER expression .)
+    PLUS            reduce using rule 28 (expression -> expression POWER expression .)
+    MINUS           reduce using rule 28 (expression -> expression POWER expression .)
+    POWER           reduce using rule 28 (expression -> expression POWER expression .)
+    FORWARD         reduce using rule 28 (expression -> expression POWER expression .)
+    BACK            reduce using rule 28 (expression -> expression POWER expression .)
+    RIGHT           reduce using rule 28 (expression -> expression POWER expression .)
+    LEFT            reduce using rule 28 (expression -> expression POWER expression .)
+    PENUP           reduce using rule 28 (expression -> expression POWER expression .)
+    PENDOWN         reduce using rule 28 (expression -> expression POWER expression .)
+    REPEAT          reduce using rule 28 (expression -> expression POWER expression .)
+    IF              reduce using rule 28 (expression -> expression POWER expression .)
+    MAKE            reduce using rule 28 (expression -> expression POWER expression .)
+    PRINT           reduce using rule 28 (expression -> expression POWER expression .)
+    $end            reduce using rule 28 (expression -> expression POWER expression .)
+    RBR             reduce using rule 28 (expression -> expression POWER expression .)
+    LBR             reduce using rule 28 (expression -> expression POWER expression .)
+    GT              reduce using rule 28 (expression -> expression POWER expression .)
+    LT              reduce using rule 28 (expression -> expression POWER expression .)
+    GTE             reduce using rule 28 (expression -> expression POWER expression .)
+    LTE             reduce using rule 28 (expression -> expression POWER expression .)
+    EQUALS          reduce using rule 28 (expression -> expression POWER expression .)
+    NE              reduce using rule 28 (expression -> expression POWER expression .)
+    RPAR            reduce using rule 28 (expression -> expression POWER expression .)
+
+  ! TIMES           [ shift and go to state 38 ]
+  ! DIVIDE          [ shift and go to state 39 ]
+  ! PLUS            [ shift and go to state 40 ]
+  ! MINUS           [ shift and go to state 41 ]
+  ! POWER           [ shift and go to state 42 ]
+
+
+state 61
 
     (22) expression -> LPAR expression RPAR .
 
@@ -1473,6 +1635,7 @@ state 58
     DIVIDE          reduce using rule 22 (expression -> LPAR expression RPAR .)
     PLUS            reduce using rule 22 (expression -> LPAR expression RPAR .)
     MINUS           reduce using rule 22 (expression -> LPAR expression RPAR .)
+    POWER           reduce using rule 22 (expression -> LPAR expression RPAR .)
     FORWARD         reduce using rule 22 (expression -> LPAR expression RPAR .)
     BACK            reduce using rule 22 (expression -> LPAR expression RPAR .)
     RIGHT           reduce using rule 22 (expression -> LPAR expression RPAR .)
@@ -1491,10 +1654,11 @@ state 58
     GTE             reduce using rule 22 (expression -> LPAR expression RPAR .)
     LTE             reduce using rule 22 (expression -> LPAR expression RPAR .)
     EQUALS          reduce using rule 22 (expression -> LPAR expression RPAR .)
+    NE              reduce using rule 22 (expression -> LPAR expression RPAR .)
     RPAR            reduce using rule 22 (expression -> LPAR expression RPAR .)
 
 
-state 59
+state 62
 
     (14) repeat_statement -> REPEAT expression LBR statement_list . RBR
     (1) statement_list -> statement_list . statement
@@ -1515,7 +1679,7 @@ state 59
     (17) print_statement -> . PRINT word
     (18) print_statement -> . PRINT expression
 
-    RBR             shift and go to state 66
+    RBR             shift and go to state 70
     FORWARD         shift and go to state 8
     BACK            shift and go to state 9
     RIGHT           shift and go to state 10
@@ -1534,7 +1698,7 @@ state 59
     variable_declaration           shift and go to state 6
     print_statement                shift and go to state 7
 
-state 60
+state 63
 
     (15) if_statement -> IF condition LBR statement_list . RBR
     (1) statement_list -> statement_list . statement
@@ -1555,7 +1719,7 @@ state 60
     (17) print_statement -> . PRINT word
     (18) print_statement -> . PRINT expression
 
-    RBR             shift and go to state 67
+    RBR             shift and go to state 71
     FORWARD         shift and go to state 8
     BACK            shift and go to state 9
     RIGHT           shift and go to state 10
@@ -1574,82 +1738,109 @@ state 60
     variable_declaration           shift and go to state 6
     print_statement                shift and go to state 7
 
-state 61
-
-    (30) condition -> expression GT expression .
-    (24) expression -> expression . TIMES expression
-    (25) expression -> expression . DIVIDE expression
-    (26) expression -> expression . PLUS expression
-    (27) expression -> expression . MINUS expression
-
-    LBR             reduce using rule 30 (condition -> expression GT expression .)
-    TIMES           shift and go to state 38
-    DIVIDE          shift and go to state 39
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-
-
-state 62
-
-    (31) condition -> expression LT expression .
-    (24) expression -> expression . TIMES expression
-    (25) expression -> expression . DIVIDE expression
-    (26) expression -> expression . PLUS expression
-    (27) expression -> expression . MINUS expression
-
-    LBR             reduce using rule 31 (condition -> expression LT expression .)
-    TIMES           shift and go to state 38
-    DIVIDE          shift and go to state 39
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-
-
-state 63
-
-    (32) condition -> expression GTE expression .
-    (24) expression -> expression . TIMES expression
-    (25) expression -> expression . DIVIDE expression
-    (26) expression -> expression . PLUS expression
-    (27) expression -> expression . MINUS expression
-
-    LBR             reduce using rule 32 (condition -> expression GTE expression .)
-    TIMES           shift and go to state 38
-    DIVIDE          shift and go to state 39
-    PLUS            shift and go to state 40
-    MINUS           shift and go to state 41
-
-
 state 64
 
-    (33) condition -> expression LTE expression .
+    (31) condition -> expression GT expression .
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
-    LBR             reduce using rule 33 (condition -> expression LTE expression .)
+    LBR             reduce using rule 31 (condition -> expression GT expression .)
     TIMES           shift and go to state 38
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 65
 
-    (34) condition -> expression EQUALS expression .
+    (32) condition -> expression LT expression .
     (24) expression -> expression . TIMES expression
     (25) expression -> expression . DIVIDE expression
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
 
-    LBR             reduce using rule 34 (condition -> expression EQUALS expression .)
+    LBR             reduce using rule 32 (condition -> expression LT expression .)
     TIMES           shift and go to state 38
     DIVIDE          shift and go to state 39
     PLUS            shift and go to state 40
     MINUS           shift and go to state 41
+    POWER           shift and go to state 42
 
 
 state 66
+
+    (33) condition -> expression GTE expression .
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
+
+    LBR             reduce using rule 33 (condition -> expression GTE expression .)
+    TIMES           shift and go to state 38
+    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    POWER           shift and go to state 42
+
+
+state 67
+
+    (34) condition -> expression LTE expression .
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
+
+    LBR             reduce using rule 34 (condition -> expression LTE expression .)
+    TIMES           shift and go to state 38
+    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    POWER           shift and go to state 42
+
+
+state 68
+
+    (35) condition -> expression EQUALS expression .
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
+
+    LBR             reduce using rule 35 (condition -> expression EQUALS expression .)
+    TIMES           shift and go to state 38
+    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    POWER           shift and go to state 42
+
+
+state 69
+
+    (36) condition -> expression NE expression .
+    (24) expression -> expression . TIMES expression
+    (25) expression -> expression . DIVIDE expression
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . POWER expression
+
+    LBR             reduce using rule 36 (condition -> expression NE expression .)
+    TIMES           shift and go to state 38
+    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    POWER           shift and go to state 42
+
+
+state 70
 
     (14) repeat_statement -> REPEAT expression LBR statement_list RBR .
 
@@ -1667,7 +1858,7 @@ state 66
     RBR             reduce using rule 14 (repeat_statement -> REPEAT expression LBR statement_list RBR .)
 
 
-state 67
+state 71
 
     (15) if_statement -> IF condition LBR statement_list RBR .
 

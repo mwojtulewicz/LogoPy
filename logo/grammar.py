@@ -28,8 +28,8 @@ tokens = [
     'STRING', 'FLOAT', 'INT',
     'LBR', 'RBR', 'LPAR', 'RPAR', 
     'QUOTE', 'COLON',
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'EQUALS',
-    'GTE', 'LTE', 'GT', 'LT'
+    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'POWER', 'EQUALS',
+    'GTE', 'LTE', 'GT', 'LT', 'NE'
 ] + list(reserved.values())
 
 
@@ -45,11 +45,13 @@ t_PLUS   = r'\+'
 t_MINUS  = r'-'
 t_TIMES  = r'\*'
 t_DIVIDE = r'/'
+t_POWER  = r'\^'
 t_EQUALS = r'='
 t_GTE    = r'>='
 t_LTE    = r'<='
 t_GT     = r'>'
 t_LT     = r'<'
+t_NE     = r'!='
 
 def t_STRING(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -80,6 +82,7 @@ def t_error(t):
 precedence = (
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE'),
+    ('left', 'POWER'),
     ('right', 'UMINUS')
 )
 
@@ -182,6 +185,7 @@ def p_expression(p):
                | expression DIVIDE expression
                | expression PLUS expression
                | expression MINUS expression
+               | expression POWER expression
     '''
     p[0] = (p[2], p[1], p[3])
 
@@ -200,6 +204,7 @@ def p_condition(p):
               | expression GTE expression
               | expression LTE expression
               | expression EQUALS expression
+              | expression NE expression
     '''
     p[0] = (p[2], p[1], p[3])
 

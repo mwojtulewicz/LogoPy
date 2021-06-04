@@ -57,12 +57,12 @@ def t_STRING(t):
     return t
 
 def t_FLOAT(t):
-    r'[+-]?\d*\.\d+'
+    r'\d*\.\d+'
     t.value = float(t.value)
     return t
 
 def t_INT(t):
-    r'[+-]?\d+'
+    r'\d+'
     t.value = int(t.value)
     return t
 
@@ -73,32 +73,14 @@ def t_error(t):
     print(f"Illegal character {t.value[0]!r}")
     t.lexer.skip(1)
 
-# Build the lexer
-import ply.lex as lex
-lexer = lex.lex()
-
-# lexer testing
-# while True:
-#     try:
-#         s = input('logo > ')
-#     except EOFError:
-#         break
-    
-#     lexer.input(s)
-    
-#     while True:
-#         tok = lexer.token()
-#         if not tok:
-#             print()
-#             break
-#         print(tok)
 
 # -----------------------------------------------------------------------
 # Parser
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),
-    ('left', 'TIMES', 'DIVIDE')
+    ('left', 'TIMES', 'DIVIDE'),
+    ('right', 'UMINUS')
 )
 
 def p_statement_list(p):
@@ -185,6 +167,12 @@ def p_expression_group(p):
     '''
     p[0] = p[2]
 
+def p_expression_uminus(p):
+    '''
+    expression : MINUS expression %prec UMINUS
+    '''
+    p[0] = -p[2]
+
 def p_expression(p):
     '''
     expression : expression TIMES expression
@@ -228,17 +216,29 @@ def p_error(p):
     print(f"Syntax error at {p.value!r}")
 
 
+# ----------------------------------------------------------------------
+# using
+
+
+# build the lexer
+import ply.lex as lex
+lexer = lex.lex()
+
 # build the parser
 import ply.yacc as yacc
 parser = yacc.yacc()
 
-# parser testing
+# main loop
 while True:
     try:
         s = input('logo > ')
     except EOFError:
         break
+    
+    # lexer
     lexer.input(s)
     print('tokens : ',[(tok.type, tok.value) for tok in lexer])
-    p = parser.parse(s)
+    
+    # parser
+    p = parser.parse(s, lexer=lexer)
     print('AST    : ', p)

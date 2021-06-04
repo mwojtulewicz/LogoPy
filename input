@@ -4,7 +4,7 @@ ht make "i 0 repeat 250 [make "i :i+1 fd :i rt 89] st
 
 ht repeat 250 [fd repcount rt 89] st
 
-clear ht setxy [-160 : -70] repeat 8 [rt 45 repeat 6 [repeat 90 [fd 4 rt 2] rt 90]] st
+clear ht setxy [-160 , -70] repeat 8 [rt 45 repeat 6 [repeat 90 [fd 4 rt 2] rt 90]] st
 
 
 

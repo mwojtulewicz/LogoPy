@@ -12,15 +12,18 @@ RPAR: ')'
 QUOTE: '"'
 DOT: '.'
 COLON: ':'
+COMMA: ','
 PLUS: '+'
 MINUS: '-'
 TIMES: '*'
 DIVIDE: '/'
+POWER: '^'
 EQUALS: '='
 GTE: '>='
 LTE: '<='
 GT: '>'
 LT: '<'
+NE: '!='
 REPEAT: 'repeat'
 FORWARD: 'fd'
 BACK: 'bk'
@@ -31,7 +34,21 @@ PENDOWN: 'pd'
 PRINT: 'print'
 MAKE: 'make'
 IF: 'if'
-
+IFELSE: 'ifelse'
+REPCOUNT: 'repcount'
+SHOW: 'st'
+HIDE: 'ht'
+SETX: 'setx'
+SETY: 'sety'
+SETXY: 'setxy'
+SETPC: 'setpencolor'
+SETBC: 'setbgcolor'
+SETPS: 'setpensize'
+HOME: 'home'
+SPEED: 'speed'
+CLEAN: 'clean'
+RESET: 'reset'
+RANDOM: 'random'
 
 
 # GRAMMAR
@@ -40,26 +57,43 @@ statement_list :
     statement_list statement
     | statement
 
-statement :
+statement : 
     turtle_instruction
     | repeat_statement
     | if_statement
+    | ifelse_statement
     | variable_declaration
     | print_statement
 
-turtle_instruction :
-    FORWARD expression
+turtle_instruction : 
+    SETXY LBR expression COMMA expression RBR
+    | FORWARD expression
     | BACK expression
     | RIGHT expression
     | LEFT expression
+    | SETX expression
+    | SETY expression
+    | SETH expression
+    | SPEED expression
+    | SETPS expression
+    | SETPC word
+    | SETBC word
     | PENUP
     | PENDOWN
+    | SHOW
+    | HIDE
+    | HOME
+    | CLEAN
+    | RESET
 
 repeat_statement :
     REPEAT expression LBR statement_list RBR
 
 if_statement :
     IF condition LBR statement_list RBR
+
+ifelse_statement : 
+    IFELSE condition LBR statement_list RBR LBR statement_list RBR
 
 variable_declaration :
     MAKE word expression
@@ -69,32 +103,29 @@ print_statement :
     | PRINT expression
 
 expression :
-    value 
+    INT
+    | FLOAT 
+    | REPCOUNT
     | name
     | expression PLUS expression
     | expression MINUS expression
     | expression TIMES expression
     | expression DIVIDE expression
+    | expression POWER expression
     | LPAR expression RPAR 
 
 condition :
-    logical_value
+    TRUE
+    | FALSE
     | expression GT expression
     | expression LT expression
     | expression GTE expression
     | expression LTE expression
     | expression EQUALS expression
+    | expression NE expression
 
 word : 
     QUOTE STRING
 
 name :
-    COLON STRING 
-
-value :
-    INT 
-    | FLOAT
-
-logical_value :
-    TRUE
-    | FALSE
+    COLON STRING

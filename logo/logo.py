@@ -10,24 +10,40 @@
 # reserved keywords
 reserved = {
     'if': 'IF',
+    'ifelse': 'IFELSE',
     'true': 'TRUE',
     'false': 'FALSE',
     'make': 'MAKE',
     'print': 'PRINT',
     'repeat': 'REPEAT',
+    'repcount': 'REPCOUNT',
     'fd': 'FORWARD',
     'bk': 'BACK',
     'rt': 'RIGHT',
     'lt': 'LEFT',
     'pu': 'PENUP',
-    'pd': 'PENDOWN'
+    'pd': 'PENDOWN',
+    'st': 'SHOW',
+    'ht': 'HIDE',
+    'setx': 'SETX',
+    'sety': 'SETY',
+    'seth': 'SETH',
+    'setxy': 'SETXY',
+    'setpencolor': 'SETPC',
+    'setbgcolor': 'SETBC',
+    'setpensize': 'SETPS',
+    'home': 'HOME',
+    'speed': 'SPEED',
+    'clean': 'CLEAN',
+    'reset': 'RESET',
+    'random': 'RANDOM'
 }
 
 # tokens keywords
 tokens = [
     'STRING', 'FLOAT', 'INT',
     'LBR', 'RBR', 'LPAR', 'RPAR', 
-    'QUOTE', 'COLON',
+    'QUOTE', 'COLON', 'COMMA',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'POWER', 'EQUALS',
     'GTE', 'LTE', 'GT', 'LT', 'NE'
 ] + list(reserved.values())
@@ -41,6 +57,7 @@ t_LPAR   = r'\('
 t_RPAR   = r'\)'
 t_QUOTE  = r'"'
 t_COLON  = r':'
+t_COMMA  = r','
 t_PLUS   = r'\+'
 t_MINUS  = r'-'
 t_TIMES  = r'\*'
@@ -80,6 +97,7 @@ def t_error(t):
 # Parser
 
 precedence = (
+    ('right', 'RANDOM'),
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE'),
     ('left', 'POWER'),
@@ -102,6 +120,7 @@ def p_statement(p):
     statement : turtle_instruction
               | repeat_statement
               | if_statement
+              | ifelse_statement
               | variable_declaration
               | print_statement
     '''
@@ -109,17 +128,32 @@ def p_statement(p):
 
 def p_turtle_instruction(p):
     '''
-    turtle_instruction : FORWARD expression
+    turtle_instruction : SETXY LBR expression COMMA expression RBR
+                       | FORWARD expression
                        | BACK expression
                        | RIGHT expression
                        | LEFT expression
+                       | SETX expression
+                       | SETY expression
+                       | SETH expression
+                       | SPEED expression
+                       | SETPS expression
+                       | SETPC word
+                       | SETBC word
                        | PENUP
                        | PENDOWN
+                       | SHOW
+                       | HIDE
+                       | HOME
+                       | CLEAN
+                       | RESET
     '''
-    if len(p)==3:
+    if len(p)==7:
+        p[0] = (p[1], p[3], p[5])
+    elif len(p)==3:
         p[0] = (p[1], p[2])
     else:
-        p[0] = (p[1])
+        p[0] = (p[1], None)
 
 def p_repeat_statement(p):
     '''
@@ -132,6 +166,12 @@ def p_if_statement(p):
     if_statement : IF condition LBR statement_list RBR
     '''
     p[0] = (p[1], p[2], p[4])
+
+def p_ifelse_statement(p):
+    '''
+    ifelse_statement : IFELSE condition LBR statement_list RBR LBR statement_list RBR
+    '''
+    p[0] = (p[1], p[2], p[4], p[7])
 
 def p_variable_declaration(p):
     '''
@@ -161,6 +201,7 @@ def p_expression_int_float(p):
 def p_expression_var(p):
     '''
     expression : name
+               | REPCOUNT
     '''
     p[0] = ('var', p[1])
 
@@ -177,7 +218,13 @@ def p_expression_uminus(p):
     if type(p[2]) is tuple:
         p[0] = ('uminus', p[2])
     else:
-        p[0] = -p[2]
+        p[0] = (-1) * p[2]
+
+def p_expression_random(p):
+    '''
+    expression : RANDOM expression
+    '''
+    p[0] = (p[1], p[2])
 
 def p_expression(p):
     '''
@@ -221,22 +268,23 @@ def p_name(p):
     p[0] = p[2]
 
 def p_error(p):
-    print(f"Syntax error at {p.value!r}")
+    return f"Syntax error at {p.value!r}"
 
 
 # ----------------------------------------------------------------------
 # Interpreter
 
-from math import exp
 import turtle
+import random
 
-s = turtle.getscreen()
 turtle.title('LogoPy')
-t = turtle.Turtle()
-t.shape("turtle")
-t.speed(10)
+turtle.shape("turtle")
+turtle.mode('logo')
+turtle.speed(0)
 
+# scope
 env = { }
+env['repcount'] = 0
 
 def run(program):
     for statement in program:
@@ -245,78 +293,120 @@ def run(program):
 def execute(s):
     global env
     fun = s[0]
+    arg1 = s[1]
+    arg2 = s[2] if len(s)>2 else None
+    arg3 = s[3] if len(s)>3 else None
     # turtle instruction
-    if fun == 'fd':
-        t.forward(s[1])
+    if fun == 'setxy':
+        turtle.setposition(calc(arg1), calc(arg2))
+    elif fun == 'fd':
+        turtle.forward(calc(arg1))
     elif fun == 'bk':
-        t.back(s[1])
+        turtle.back(calc(arg1))
     elif fun == 'rt':
-        t.right(s[1])
+        turtle.right(calc(arg1))
     elif fun == 'lt':
-        t.left(s[1])
+        turtle.left(calc(arg1))
+    elif fun == 'setx':
+        turtle.setx(calc(arg1))
+    elif fun == 'sety':
+        turtle.sety(calc(arg1))
+    elif fun == 'seth':
+        turtle.setheading(calc(arg1))
+    elif fun == 'setpensize':
+        turtle.pensize(calc(arg1))
+    elif fun == 'setpencolor':
+        turtle.pencolor(arg1)
+    elif fun == 'setbgcolor':
+        turtle.pencolor(arg1)
+    elif fun == 'speed':
+        turtle.speed(calc(arg1))
     elif fun == 'pu':
-        t.penup()
+        turtle.penup()
     elif fun == 'pd':
-        t.pendown()
+        turtle.pendown()
+    elif fun == 'st':
+        turtle.showturtle()
+    elif fun == 'ht':
+        turtle.hideturtle()
+    elif fun == 'home':
+        turtle.home()
+    elif fun == 'clean':
+        turtle.clear()
+    elif fun == 'reset':
+        turtle.reset()
     # repeat
     elif fun == 'repeat':
-        for i in range(0, int(calc(s[1]))):
-            run(s[2])
+        for i in range(0, int(calc(arg1))):
+            env['repcount'] = i+1
+            run(arg2)
     # if
     elif fun == 'if':
-        if eval(s[1]):
-            run(s[2])
+        if eval(arg1):
+            run(arg2)
+    elif fun == 'ifelse':
+        if eval(arg1):
+            run(arg2)
+        else:
+            run(arg3)
     # variable declaration
     elif fun == 'make':
-        env[s[1]] = calc(s[2])
+        env[arg1] = calc(arg2)
     # print
     elif fun == 'print_word':
-        print(s[1])
+        print(arg1)
     elif fun == 'print_expr':
-        print(calc(s[1]))
+        print(calc(arg1))
 
 def calc(e):
     global env
     if type(e) == tuple:
         id = e[0]
+        arg1 = e[1]
+        arg2 = e[2] if len(e)>2 else None
         if id == '+':
-            return calc(e[1]) + calc(e[2])
+            return calc(arg1) + calc(arg2)
         elif id == '-':
-            return calc(e[1]) - calc(e[2])
+            return calc(arg1) - calc(arg2)
         elif id == '*':
-            return calc(e[1]) * calc(e[2])
+            return calc(arg1) * calc(arg2)
         elif id == '/':
-            return calc(e[1]) / calc(e[2])
+            return calc(arg1) / calc(arg2)
         elif id == '^':
-            return calc(e[1]) ** calc(e[2])
+            return calc(arg1) ** calc(arg2)
         elif id == 'var':
             try:
-                return env[e[1]]
+                return env[arg1]
             except LookupError:
-                print(f"Undefined variable {e[1]}")
+                print(f"Undefined variable {arg1}")
                 return
         elif id == 'uminus':
-            return (-1) * calc(e[1])
+            return (-1) * calc(arg1)
+        elif id == 'random':
+            return random.randrange(calc(arg1))
     else:
         return e
 
 def eval(c):
+    global env
     if type(c) != tuple:
         return c
     else:
         op = c[0]
+        arg1 = calc(c[1])
+        arg2 = calc(c[2])
         if op == '>':
-            return calc(c[1]) > calc(c[2])
+            return arg1 > arg2
         elif op == '<':
-            return calc(c[1]) < calc(c[2])
+            return arg1 < arg2
         elif op == '>=':
-            return calc(c[1]) >= calc(c[2])
+            return arg1 >= arg2
         elif op == '<=':
-            return calc(c[1]) <= calc(c[2])
+            return arg1 <= arg2
         elif op == '=':
-            return calc(c[1]) < calc(c[2])
+            return arg1 < arg2
         elif op == '!=':
-            return calc(c[1]) != calc(c[2])
+            return arg1 != arg2
 
 # ----------------------------------------------------------------------
 # main
@@ -346,4 +436,11 @@ while True:
     print('\nAST    : ', p)
 
     # excecute
-    run(p)
+    print('\nOutput :')
+    if p is None:
+        print("Syntax error")
+    else:
+        run(p)
+
+print('\n')
+turtle.bye()

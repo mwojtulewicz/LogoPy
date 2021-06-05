@@ -17,6 +17,8 @@ reserved = {
     'print': 'PRINT',
     'repeat': 'REPEAT',
     'repcount': 'REPCOUNT',
+    'to': 'TO',
+    'end': 'END',
     'fd': 'FORWARD',
     'forward': 'FORWARD',
     'bk': 'BACK',
@@ -138,6 +140,7 @@ def p_statement(p):
               | if_statement
               | ifelse_statement
               | variable_declaration
+              | procedure_definition
               | print_statement
     '''
     p[0] = [p[1]]
@@ -195,6 +198,28 @@ def p_variable_declaration(p):
     variable_declaration : MAKE word expression
     '''
     p[0] = (reserved[p[1]], p[2], p[3])
+
+def p_procedure_definition(p):
+    '''
+    procedure_definition : TO STRING parameter_list statement_list END
+    '''
+    p[0] = ('DEF', p[2], p[3], p[4])
+
+def p_parameter_list(p):
+    '''
+    parameter_list : parameter_list parameter
+                   | parameter
+    '''
+    if len(p)==3:
+        p[0] = p[1] + p[2]
+    else:
+        p[0] = p[1]
+
+def p_parameter(p):
+    '''
+    parameter : name
+    '''
+    p[0] = [p[1]]
 
 def p_print_statement_word(p):
     '''

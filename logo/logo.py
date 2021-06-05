@@ -118,8 +118,8 @@ precedence = (
     ('right', 'RANDOM'),
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE'),
+    ('right', 'UMINUS'),
     ('left', 'POWER'),
-    ('right', 'UMINUS')
 )
 
 def p_statement_list(p):
@@ -141,6 +141,7 @@ def p_statement(p):
               | ifelse_statement
               | variable_declaration
               | procedure_definition
+              | procedure_call
               | print_statement
     '''
     p[0] = [p[1]]
@@ -218,6 +219,30 @@ def p_parameter_list(p):
 def p_parameter(p):
     '''
     parameter : name
+              | empty
+    '''
+    p[0] = [p[1]]
+
+def p_procedure_call(p):
+    '''
+    procedure_call : STRING LBR expression_list RBR
+    '''
+    p[0] = ('CALL', p[1], p[3])
+
+def p_expression_list(p):
+    '''
+    expression_list : expression_list COMMA expression_elem
+                    | expression_elem
+    '''
+    if len(p)==4:
+        p[0] = p[1] + p[3]
+    else:
+        p[0] = p[1]
+
+def p_expression_elem(p):
+    '''
+    expression_elem : expression
+                    | empty
     '''
     p[0] = [p[1]]
 
@@ -262,10 +287,7 @@ def p_expression_uminus(p):
     '''
     expression : MINUS expression %prec UMINUS
     '''
-    if type(p[2]) is tuple:
-        p[0] = ('UMINUS', p[2])
-    else:
-        p[0] = (-1) * p[2]
+    p[0] = ('UMINUS', p[2])
 
 def p_expression_random(p):
     '''
@@ -313,8 +335,14 @@ def p_name(p):
     '''
     p[0] = p[2]
 
+def p_empty(p):
+    '''
+    empty :
+    '''
+    p[0] = None
+
 def p_error(p):
-    return f"Syntax error at {p.value!r}"
+    print(f"Syntax error at {p}")
 
 
 # ----------------------------------------------------------------------
@@ -401,6 +429,9 @@ def execute(s):
     # variable declaration
     elif fun == 'MAKE':
         env[arg1] = calc(arg2)
+    # function definition
+    elif fun == 'DEF':
+        pass
     # print
     elif fun == 'PRINT_WORD':
         print(arg1)

@@ -18,23 +18,39 @@ reserved = {
     'repeat': 'REPEAT',
     'repcount': 'REPCOUNT',
     'fd': 'FORWARD',
+    'forward': 'FORWARD',
     'bk': 'BACK',
+    'back': 'BACK',
     'rt': 'RIGHT',
+    'right': 'RIGHT',
     'lt': 'LEFT',
+    'left': 'LEFT',
     'pu': 'PENUP',
+    'penup': 'PENUP',
     'pd': 'PENDOWN',
+    'pendown': 'PENDOWN',
     'st': 'SHOW',
+    'showturtle': 'SHOW',
     'ht': 'HIDE',
+    'hideturtle': 'HIDE',
     'setx': 'SETX',
     'sety': 'SETY',
     'seth': 'SETH',
+    'setheading': 'SETH',
     'setxy': 'SETXY',
+    'setpos': 'SETXY',
     'setpencolor': 'SETPC',
+    'setpc': 'SETPC',
+    'setcolor': 'SETPC',
     'setbgcolor': 'SETBC',
     'setpensize': 'SETPS',
+    'setwidth': 'SETPS',
+    'setpw': 'SETPS',
     'home': 'HOME',
     'speed': 'SPEED',
     'clean': 'CLEAN',
+    'cs': 'RESET',
+    'clearscreen': 'RESET',
     'reset': 'RESET',
     'random': 'RANDOM'
 }
@@ -46,7 +62,7 @@ tokens = [
     'QUOTE', 'COLON', 'COMMA',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'POWER', 'EQUALS',
     'GTE', 'LTE', 'GT', 'LT', 'NE'
-] + list(reserved.values())
+] + list(set(reserved.values()))
 
 
 # Tokens
@@ -148,48 +164,49 @@ def p_turtle_instruction(p):
                        | CLEAN
                        | RESET
     '''
+    fun = reserved[p[1]]
     if len(p)==7:
-        p[0] = (p[1], p[3], p[5])
+        p[0] = (fun, p[3], p[5])
     elif len(p)==3:
-        p[0] = (p[1], p[2])
+        p[0] = (fun, p[2])
     else:
-        p[0] = (p[1], None)
+        p[0] = (fun, None)
 
 def p_repeat_statement(p):
     '''
     repeat_statement : REPEAT expression LBR statement_list RBR 
     '''
-    p[0] = (p[1], p[2], p[4])
+    p[0] = (reserved[p[1]], p[2], p[4])
 
 def p_if_statement(p):
     '''
     if_statement : IF condition LBR statement_list RBR
     '''
-    p[0] = (p[1], p[2], p[4])
+    p[0] = (reserved[p[1]], p[2], p[4])
 
 def p_ifelse_statement(p):
     '''
     ifelse_statement : IFELSE condition LBR statement_list RBR LBR statement_list RBR
     '''
-    p[0] = (p[1], p[2], p[4], p[7])
+    p[0] = (reserved[p[1]], p[2], p[4], p[7])
 
 def p_variable_declaration(p):
     '''
     variable_declaration : MAKE word expression
     '''
-    p[0] = (p[1], p[2], p[3])
+    p[0] = (reserved[p[1]], p[2], p[3])
 
 def p_print_statement_word(p):
     '''
     print_statement : PRINT word
     '''
-    p[0] = ('print_word', p[2])
+    p[0] = ('PRINT_WORD', p[2])
 
 def p_print_statement_expression(p):
     '''
     print_statement : PRINT expression
     '''
-    p[0] = ('print_expr', p[2])
+    p[0] = ('PRINT_EXPR', p[2])
 
 def p_expression_int_float(p):
     '''
@@ -201,9 +218,14 @@ def p_expression_int_float(p):
 def p_expression_var(p):
     '''
     expression : name
-               | REPCOUNT
     '''
-    p[0] = ('var', p[1])
+    p[0] = ('VAR', p[1])
+
+def p_expression_repcount(p):
+    '''
+    expression : REPCOUNT
+    '''
+    p[0] = ('REPCOUNT', None)
 
 def p_expression_group(p):
     '''
@@ -216,7 +238,7 @@ def p_expression_uminus(p):
     expression : MINUS expression %prec UMINUS
     '''
     if type(p[2]) is tuple:
-        p[0] = ('uminus', p[2])
+        p[0] = ('UMINUS', p[2])
     else:
         p[0] = (-1) * p[2]
 
@@ -224,7 +246,7 @@ def p_expression_random(p):
     '''
     expression : RANDOM expression
     '''
-    p[0] = (p[1], p[2])
+    p[0] = (reserved[p[1]], p[2])
 
 def p_expression(p):
     '''
@@ -241,8 +263,7 @@ def p_condition_true_false(p):
     condition : TRUE
               | FALSE
     '''
-    value = p[1]=='true'
-    p[0] = value
+    p[0] = (p[1]=='true')
 
 def p_condition(p):
     '''
@@ -284,7 +305,8 @@ turtle.speed(0)
 
 # scope
 env = { }
-env['repcount'] = 0
+env['INLOOP'] = False
+env['REPCOUNT'] = None
 
 def run(program):
     for statement in program:
@@ -297,65 +319,67 @@ def execute(s):
     arg2 = s[2] if len(s)>2 else None
     arg3 = s[3] if len(s)>3 else None
     # turtle instruction
-    if fun == 'setxy':
+    if fun == 'SETXY':
         turtle.setposition(calc(arg1), calc(arg2))
-    elif fun == 'fd':
+    elif fun == 'FORWARD':
         turtle.forward(calc(arg1))
-    elif fun == 'bk':
+    elif fun == 'BACK':
         turtle.back(calc(arg1))
-    elif fun == 'rt':
+    elif fun == 'RIGHT':
         turtle.right(calc(arg1))
-    elif fun == 'lt':
+    elif fun == 'LEFT':
         turtle.left(calc(arg1))
-    elif fun == 'setx':
+    elif fun == 'SETX':
         turtle.setx(calc(arg1))
-    elif fun == 'sety':
+    elif fun == 'SETY':
         turtle.sety(calc(arg1))
-    elif fun == 'seth':
+    elif fun == 'SETH':
         turtle.setheading(calc(arg1))
-    elif fun == 'setpensize':
+    elif fun == 'SETPS':
         turtle.pensize(calc(arg1))
-    elif fun == 'setpencolor':
+    elif fun == 'SETPC':
         turtle.pencolor(arg1)
-    elif fun == 'setbgcolor':
-        turtle.pencolor(arg1)
-    elif fun == 'speed':
+    elif fun == 'SETBC':
+        turtle.bgcolor(arg1)
+    elif fun == 'SPEED':
         turtle.speed(calc(arg1))
-    elif fun == 'pu':
+    elif fun == 'PENUP':
         turtle.penup()
-    elif fun == 'pd':
+    elif fun == 'PENDOWN':
         turtle.pendown()
-    elif fun == 'st':
+    elif fun == 'SHOW':
         turtle.showturtle()
-    elif fun == 'ht':
+    elif fun == 'HIDE':
         turtle.hideturtle()
-    elif fun == 'home':
+    elif fun == 'HOME':
         turtle.home()
-    elif fun == 'clean':
+    elif fun == 'CLEAN':
         turtle.clear()
-    elif fun == 'reset':
+    elif fun == 'RESET':
         turtle.reset()
     # repeat
-    elif fun == 'repeat':
+    elif fun == 'REPEAT':
         for i in range(0, int(calc(arg1))):
-            env['repcount'] = i+1
+            env['INLOOP'] = True
+            env['REPCOUNT'] = i+1
             run(arg2)
+        env['INLOOP'] = False
     # if
-    elif fun == 'if':
+    elif fun == 'IF':
         if eval(arg1):
             run(arg2)
-    elif fun == 'ifelse':
+    elif fun == 'IFELSE':
         if eval(arg1):
             run(arg2)
         else:
             run(arg3)
     # variable declaration
-    elif fun == 'make':
+    elif fun == 'MAKE':
         env[arg1] = calc(arg2)
     # print
-    elif fun == 'print_word':
+    elif fun == 'PRINT_WORD':
         print(arg1)
-    elif fun == 'print_expr':
+    elif fun == 'PRINT_EXPR':
         print(calc(arg1))
 
 def calc(e):
@@ -374,15 +398,21 @@ def calc(e):
             return calc(arg1) / calc(arg2)
         elif id == '^':
             return calc(arg1) ** calc(arg2)
-        elif id == 'var':
+        elif id == 'VAR':
             try:
                 return env[arg1]
             except LookupError:
                 print(f"Undefined variable {arg1}")
                 return
-        elif id == 'uminus':
+        elif id == 'REPCOUNT':
+            if env['INLOOP']:
+                return env['REPCOUNT']
+            else:
+                print('Repcount used outside of loop')
+                return
+        elif id == 'UMINUS':
             return (-1) * calc(arg1)
-        elif id == 'random':
+        elif id == 'RANDOM':
             return random.randrange(calc(arg1))
     else:
         return e

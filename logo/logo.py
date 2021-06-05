@@ -11,6 +11,9 @@
 reserved = {
     'if': 'IF',
     'ifelse': 'IFELSE',
+    'while': 'WHILE',
+    'until': 'WHILE',
+    'do': 'DO',
     'true': 'TRUE',
     'false': 'FALSE',
     'make': 'MAKE',
@@ -139,6 +142,8 @@ def p_statement(p):
               | repeat_statement
               | if_statement
               | ifelse_statement
+              | while_statement
+              | dowhile_statement
               | variable_declaration
               | procedure_definition
               | procedure_call
@@ -194,6 +199,18 @@ def p_ifelse_statement(p):
     '''
     p[0] = (reserved[p[1]], p[2], p[4], p[7])
 
+def p_while_statement(p):
+    '''
+    while_statement : WHILE condition LBR statement_list RBR
+    '''
+    p[0] = (reserved[p[1]], p[2], p[4])
+
+def p_dowhile_statement(p):
+    '''
+    dowhile_statement : DO LBR statement_list RBR WHILE condition
+    '''
+    p[0] = (reserved[p[1]], p[3], p[6])
+
 def p_variable_declaration(p):
     '''
     variable_declaration : MAKE word expression
@@ -202,17 +219,18 @@ def p_variable_declaration(p):
 
 def p_procedure_definition(p):
     '''
-    procedure_definition : TO STRING parameter_list statement_list END
+    procedure_definition : TO STRING LBR parameter_list RBR statement_list END
     '''
-    p[0] = ('DEF', p[2], p[3], p[4])
+    args = [a for a in p[4] if a is not None]
+    p[0] = ('DEF', p[2], args, p[6])
 
 def p_parameter_list(p):
     '''
-    parameter_list : parameter_list parameter
+    parameter_list : parameter_list COMMA parameter
                    | parameter
     '''
-    if len(p)==3:
-        p[0] = p[1] + p[2]
+    if len(p)==4:
+        p[0] = p[1] + p[3]
     else:
         p[0] = p[1]
 
@@ -227,24 +245,19 @@ def p_procedure_call(p):
     '''
     procedure_call : STRING LBR expression_list RBR
     '''
-    p[0] = ('CALL', p[1], p[3])
+    args = [a for a in p[3] if a is not None]
+    p[0] = ('CALL', p[1], args)
 
 def p_expression_list(p):
     '''
-    expression_list : expression_list COMMA expression_elem
-                    | expression_elem
-    '''
-    if len(p)==4:
-        p[0] = p[1] + p[3]
-    else:
-        p[0] = p[1]
-
-def p_expression_elem(p):
-    '''
-    expression_elem : expression
+    expression_list : expression_list COMMA expression
+                    | expression
                     | empty
     '''
-    p[0] = [p[1]]
+    if len(p)==4:
+        p[0] = p[1] + [p[3]]
+    else:
+        p[0] = [p[1]]
 
 def p_print_statement_word(p):
     '''
@@ -371,7 +384,8 @@ def execute(s):
     arg1 = s[1]
     arg2 = s[2] if len(s)>2 else None
     arg3 = s[3] if len(s)>3 else None
-    # turtle instruction
+    
+    # turtle instructions
     if fun == 'SETXY':
         turtle.setposition(calc(arg1), calc(arg2))
     elif fun == 'FORWARD':
@@ -410,14 +424,14 @@ def execute(s):
         turtle.clear()
     elif fun == 'RESET':
         turtle.reset()
-    # repeat
+    
+    # control structures
     elif fun == 'REPEAT':
         for i in range(0, int(calc(arg1))):
             env['INLOOP'] = True
             env['REPCOUNT'] = i+1
             run(arg2)
         env['INLOOP'] = False
-    # if
     elif fun == 'IF':
         if eval(arg1):
             run(arg2)
@@ -426,12 +440,43 @@ def execute(s):
             run(arg2)
         else:
             run(arg3)
+    elif fun == 'WHILE':
+        while eval(arg1):
+            run(arg2)
+    elif fun == 'DO':
+        run(arg1)
+        while eval(arg2):
+            run(arg1)
     # variable declaration
     elif fun == 'MAKE':
         env[arg1] = calc(arg2)
-    # function definition
+    # procedures
     elif fun == 'DEF':
-        pass
+        env[arg1] = {
+            'args': [a for a in arg2 if a is not None],
+            'body': arg3
+        }
+    elif fun == 'CALL':
+        try:
+            proc = env[arg1]
+            arg2 = [a for a in arg2 if a is not None]
+            if type(proc) != dict:
+                print(f"{arg1} is not a procedure")
+                return
+            if len(arg2) != len(proc['args']):
+                print(f"expected {len(proc['args'])} arguments, but got {len(arg2)}")
+                return
+            old_arg_values = [env.get(arg,None) for arg in proc['args']]
+            for arg,arg_expr in zip(proc['args'],arg2):
+                env[arg] = calc(arg_expr)
+            run(proc['body'])
+            for arg,old_value in zip(proc['args'],old_arg_values):
+                if old_value is None:
+                    env.pop(arg)
+                else:
+                    env[arg] = old_value
+        except LookupError:
+            print(f"Undeclared procedure {arg1}")
     # print
     elif fun == 'PRINT_WORD':
         print(arg1)
@@ -464,8 +509,8 @@ def calc(e):
             if env['INLOOP']:
                 return env['REPCOUNT']
             else:
-                print('Repcount used outside of loop')
-                return
+                print('Repcount used outside of repeat loop')
+                return None
         elif id == 'UMINUS':
             return (-1) * calc(arg1)
         elif id == 'RANDOM':
@@ -504,7 +549,7 @@ lexer = lex.lex()
 
 # build the parser
 import ply.yacc as yacc
-parser = yacc.yacc()
+parser = yacc.yacc(debug=True)
 
 # main loop
 while True:
@@ -518,7 +563,7 @@ while True:
     print('\ntokens : ',[(tok.type, tok.value) for tok in lexer])
     
     # parser
-    p = parser.parse(s, lexer=lexer)
+    p = parser.parse(s)
     print('\nAST    : ', p)
 
     # excecute
@@ -527,6 +572,9 @@ while True:
         print("Syntax error")
     else:
         run(p)
+    
+    # env
+    print('\nEnv    : ', env)
 
 print('\n')
 turtle.bye()

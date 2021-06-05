@@ -6,5 +6,5 @@ ht repeat 250 [fd repcount rt 89] st
 
 clear ht setxy [-160 , -70] repeat 8 [rt 45 repeat 6 [repeat 90 [fd 4 rt 2] rt 90]] st
 
-
+to spiral[] make "n 1 while :n<100 [make "n :n+5 fd :n rt 90] end
 

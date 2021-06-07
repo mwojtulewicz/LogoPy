@@ -65,8 +65,8 @@ tokens = [
     'STRING', 'FLOAT', 'INT',
     'LBR', 'RBR', 'LPAR', 'RPAR', 
     'QUOTE', 'COLON', 'COMMA',
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'POWER', 'EQUALS',
-    'GTE', 'LTE', 'GT', 'LT', 'NE'
+    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'POWER',
+    'EQUALS', 'GTE', 'LTE', 'GT', 'LT', 'NE'
 ] + list(set(reserved.values()))
 
 

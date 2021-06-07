@@ -10,7 +10,6 @@ RBR: ']'
 LPAR: '('
 RPAR: ')'
 QUOTE: '"'
-DOT: '.'
 COLON: ':'
 COMMA: ','
 PLUS: '+'
@@ -25,29 +24,34 @@ GT: '>'
 LT: '<'
 NE: '!='
 REPEAT: 'repeat'
-FORWARD: 'fd'
-BACK: 'bk'
-RIGHT: 'rt'
-LEFT: 'lt'
-PENUP: 'pu'
-PENDOWN: 'pd'
+FORWARD: 'fd' | 'forward'
+BACK: 'bk' | 'back'
+RIGHT: 'rt' | 'right'
+LEFT: 'lt' | 'left'
+PENUP: 'pu' | 'penup'
+PENDOWN: 'pd' | 'pendown'
 PRINT: 'print'
 MAKE: 'make'
 IF: 'if'
 IFELSE: 'ifelse'
+WHILE: 'while' | 'until'
+DO: 'do'
+TO: 'to'
+END: 'end'
 REPCOUNT: 'repcount'
-SHOW: 'st'
-HIDE: 'ht'
+SHOW: 'st' | 'showturtle'
+HIDE: 'ht' | 'hideturtle'
 SETX: 'setx'
 SETY: 'sety'
-SETXY: 'setxy'
-SETPC: 'setpencolor'
+SETXY: 'setxy' | 'setpos'
+SETH: 'setheading' | 'seth'
+SETPC: 'setpencolor' | 'setcolor' | 'setpc'
 SETBC: 'setbgcolor'
-SETPS: 'setpensize'
+SETPS: 'setpensize' | 'setpenwidth | 'setpw'
 HOME: 'home'
 SPEED: 'speed'
 CLEAN: 'clean'
-RESET: 'reset'
+RESET: 'reset' | 'cs' | 'clearscreen'
 RANDOM: 'random'
 
 
@@ -62,7 +66,11 @@ statement :
     | repeat_statement
     | if_statement
     | ifelse_statement
+    | while_statement
+    | dowhile_statement
     | variable_declaration
+    | procedure_definition
+    | procedure_call
     | print_statement
 
 turtle_instruction : 
@@ -95,8 +103,33 @@ if_statement :
 ifelse_statement : 
     IFELSE condition LBR statement_list RBR LBR statement_list RBR
 
+while_statement : 
+    WHILE condition LBR statement_list RBR
+
+dowhile_statement :
+    DO LBR statement_list RBR WHILE condition
+
 variable_declaration :
     MAKE word expression
+
+procedure_definition :
+    TO STRING LBR parameter_list RBR statement_list END
+
+parameter_list :
+    parameter_list COMMA parameter
+    | parameter
+
+parameter :
+    name
+    | empty
+
+procedure_call : 
+    STRING LBR expression_list RBR
+
+expression_list :
+    expression_list COMMA expression
+    | expression 
+    | empty
 
 print_statement :
     PRINT word
@@ -130,3 +163,5 @@ word :
 
 name :
     COLON STRING
+
+empty :

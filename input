@@ -3,6 +3,7 @@ repeat 20 [
     rt 180-180/20*(20-2)
 ]
 
+
 ht 
 make "i 0 
 repeat 250 [
@@ -12,12 +13,14 @@ repeat 250 [
 ] 
 st
 
+
 ht
 repeat 250 [
     fd repcount 
     rt 89
 ]
 st
+
 
 clear ht 
 setxy [-160 , -70] 
@@ -30,6 +33,7 @@ repeat 8 [
 ] 
 st
 
+
 to spiral[] 
     make "n 1 
     while :n<100 [
@@ -40,12 +44,14 @@ to spiral[]
 end
 spiral[]
 
+
 to foremny[:n, :a]
     repeat :n [
         fd :a 
         rt 180-180/:n*(:n-2)
     ]
 end
+
 
 to fern [:size, :sign]
     if :size >= 1 [
@@ -63,5 +69,32 @@ to fern [:size, :sign]
         bk :size*2
     ]
 end
-cs pu bk 150 pd 
-ht fern[20,1] st
+
+home clean pu setpos[-190,-220] pd 
+ht fern[30,1.2]
+
+home clean pu setpos[-100,-50] pd
+ht fern[40,5]
+
+
+to n_eck [:ne, :sz] 
+    repeat :ne [rt 360 / :ne fd :sz] 
+end 
+to mn_eck [:ne, :sz] 
+    repeat :ne [
+        rt 360/:ne 
+        n_eck[:ne, :sz]
+    ] 
+end
+mn_eck[36,20]
+
+
+to triangle [:side, :level]
+    if :level!=0 [
+        repeat 3 [
+            triangle[:side/2, :level-1] fd :side lt 120
+        ]
+    ]
+end 
+setpos[240,-220] seth -30 clean 
+triangle[500,10]

@@ -375,6 +375,7 @@ import random
 turtle.title('LogoPy')
 turtle.shape("turtle")
 turtle.mode('logo')
+turtle.tracer(1,5)
 turtle.speed(0)
 
 # scope
@@ -417,7 +418,15 @@ def execute(s):
     elif fun == 'SETBC':
         turtle.bgcolor(arg1)
     elif fun == 'SPEED':
-        turtle.speed(calc(arg1))
+        a = calc(arg1)
+        if a<0:
+            turtle.tracer(0,0)
+        elif a==0:
+            turtle.tracer(1,0)
+            turtle.speed(a)
+        else:
+            turtle.tracer(1,5)
+            turtle.speed(a-1)
     elif fun == 'PENUP':
         turtle.penup()
     elif fun == 'PENDOWN':
@@ -586,12 +595,14 @@ def main(debug):
             pass
         else:
             run(p)
+            turtle.update()
         
         # debugging
         if debug:
-            # printing tokens, generated AST and present environment state
+            # printing tokens, generated AST and current environment state
             lexer.input(s)
-            print('\ntokens : ',[(tok.type, tok.value) for tok in lexer])
+            tokens = [(tok.type, tok.value) for tok in lexer]
+            print('\ntokens : ', tokens)
             print('\nAST    : ', p)
             print('\nEnv    : ', env)
 

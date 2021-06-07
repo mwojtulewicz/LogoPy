@@ -1,4 +1,4 @@
-# -------------------------------------------------------------
+#--------------------------------------------------------------
 # logo.py
 # 
 # Logo iterpreter
@@ -109,12 +109,16 @@ def t_INT(t):
 # Ignored characters
 t_ignore = " \t"
 
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
+
 def t_error(t):
-    print(f"Illegal character {t.value[0]!r}")
+    print(f"Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
 
-# -----------------------------------------------------------------------
+#--------------------------------------------------------------
 # Parser
 
 precedence = (
@@ -355,10 +359,14 @@ def p_empty(p):
     p[0] = None
 
 def p_error(p):
-    print(f"Syntax error at {p}")
+    if p:
+        print("Syntax error at token", p.type)
+        parser.errok()
+    else:
+        print("Syntax error at EOF")
 
 
-# ----------------------------------------------------------------------
+#--------------------------------------------------------------
 # Interpreter
 
 import turtle
@@ -466,15 +474,11 @@ def execute(s):
             if len(arg2) != len(proc['args']):
                 print(f"expected {len(proc['args'])} arguments, but got {len(arg2)}")
                 return
-            old_arg_values = [env.get(arg,None) for arg in proc['args']]
+            old_env = env.copy()
             for arg,arg_expr in zip(proc['args'],arg2):
                 env[arg] = calc(arg_expr)
             run(proc['body'])
-            for arg,old_value in zip(proc['args'],old_arg_values):
-                if old_value is None:
-                    env.pop(arg)
-                else:
-                    env[arg] = old_value
+            env = old_env.copy()
         except LookupError:
             print(f"Undeclared procedure {arg1}")
     # print
@@ -539,7 +543,7 @@ def eval(c):
         elif op == '!=':
             return arg1 != arg2
 
-# ----------------------------------------------------------------------
+#--------------------------------------------------------------
 # main
 
 
@@ -551,30 +555,50 @@ lexer = lex.lex()
 import ply.yacc as yacc
 parser = yacc.yacc(debug=True)
 
-# main loop
-while True:
-    try:
-        s = input('\nlogo > ')
-    except EOFError:
-        break
-    
-    # lexer
-    lexer.input(s)
-    print('\ntokens : ',[(tok.type, tok.value) for tok in lexer])
-    
-    # parser
-    p = parser.parse(s)
-    print('\nAST    : ', p)
+# main function
+def main(debug):
+    while True:
+        prompt = 'LOGO '
+        # input
+        try:
+            cmd = input(f'\n{prompt[0]} >> ')
+            if cmd.strip()=='exit': break
+        except EOFError:
+            break
+        # multiline input
+        i = 0
+        lines = [cmd]
+        while True:
+            i = (i+1)%len(prompt)
+            pc = prompt[i]
+            line = input(f'{pc}  > ')
+            if line:
+                lines.append(line)
+            else:
+                break
+        s = '\n'.join(lines)
+        
+        # parsing
+        p = parser.parse(s)
 
-    # excecute
-    print('\nOutput :')
-    if p is None:
-        print("Syntax error")
-    else:
-        run(p)
-    
-    # env
-    print('\nEnv    : ', env)
+        # excecuting
+        if p is None:
+            pass
+        else:
+            run(p)
+        
+        # debugging
+        if debug:
+            # printing tokens, generated AST and present environment state
+            lexer.input(s)
+            print('\ntokens : ',[(tok.type, tok.value) for tok in lexer])
+            print('\nAST    : ', p)
+            print('\nEnv    : ', env)
 
-print('\n')
-turtle.bye()
+    # exiting
+    print('\n')
+    turtle.bye()
+
+
+if __name__=='__main__':
+    main(debug=False)

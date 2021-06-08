@@ -594,8 +594,17 @@ def main(debug):
         if p is None:
             pass
         else:
-            run(p)
-            turtle.update()
+            try:
+                run(p)
+                turtle.update()
+            except Exception as e:
+                print(f'Interpreter error (Python): {e}')
+                lexer.input(s)
+                tokens = [(tok.type, tok.value) for tok in lexer]
+                print('tokens : ', tokens)
+                print('AST    : ', p)
+                print('Env    : ', env)
+                continue
         
         # debugging
         if debug:
@@ -607,8 +616,11 @@ def main(debug):
             print('\nEnv    : ', env)
 
     # exiting
+    try:
+        turtle.bye()
+    except:
+        print('Excuse the turtle his manners...')
     print('\n')
-    turtle.bye()
 
 
 if __name__=='__main__':

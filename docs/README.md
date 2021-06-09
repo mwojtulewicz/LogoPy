@@ -207,7 +207,7 @@ to dragon[:side, :level]
         pu rt 180 fd :side*2^(:level-1) pd
     ]
 end
-speed -1 ht setxy[-140,-80] seth 0 clean rt 90
+speed -1 ht setxy[-140,-80] seth 90 clean
 dragon[3,7]
 
 ```
@@ -232,7 +232,7 @@ to hilbert[:side, :level, :par]
     ]
 end
 
-setpos[-280,-280]
+cs setpos[280,-280]
 clean speed -1 ht
 hilbert[4.5,7,1]
 ```
@@ -250,7 +250,7 @@ to koch[:side,:level]
         koch[:side/3, :level-1]
     ]
 end
-setpos[-300,0] speed 0 clean
+setpos[-300,0] seth 90 speed 0 clean
 koch[600,5]
 
 ```
@@ -262,16 +262,24 @@ to snowflake[:side, :level]
     repeat 3 [koch[:side, :level] rt 120]
 end
 
-setpos[-250,150] clean speed 0 ht
+cs setpos[-150,-250] clean speed 0 ht
 snowflake[500,5]
 ```
 ![snowflake](hilbert_snowflake.png)
 
-## Logo Logo :)
+## Wielokąt foremny
 ```
 to n_eck [:ne, :sz] 
-    repeat :ne [rt 360 / :ne fd :sz] 
+    repeat :ne [fd :sz rt 360/:ne] 
 end 
+
+cs 
+n_eck[9, 100]
+```
+![foremny](foremny.png)
+
+## Logo Logo :)
+```
 to mn_eck [:ne, :sz] 
     repeat :ne [
         rt 360/:ne 
@@ -286,20 +294,6 @@ st
 ```
 ![logologo](logologo.png)
 
-## Wielokąt foremny
-```
-to foremny[:n, :a]
-    repeat :n [
-        fd :a 
-        rt 180-180/:n*(:n-2)
-    ]
-end
-
-cs 
-foremny[9, 100]
-```
-![foremny](foremny.png)
-
 ## Spirala
 ```
 to spiral[] 
@@ -310,6 +304,7 @@ to spiral[]
         rt 90
     ] 
 end
-spiral[]
+
+cs spiral[]
 ```
 ![spiral](spiral.png)

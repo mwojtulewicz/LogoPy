@@ -164,6 +164,7 @@ setpos[240,-220] seth -30 clean
 triangle[500,7]
 ```
 ![sierpinski](sierpinski.png)
+
 ## Fern
 ```
 to fern [:size, :sign]
@@ -192,6 +193,51 @@ cs setpos[-100,-50] clean ht
 fern[40,5]
 ```
 ![fern](fern.png)
+
+## Smok Ewy
+```
+to dragon[:side, :level]
+    ifelse :level=0 [fd :side]
+    [
+        lt 90
+        dragon[:side, :level-1] rt 135
+        dragon[:side*2^(1/2), :level-1] lt 45
+        pu fd :side*2^(:level-1) rt 180 pd
+        dragon[:side, :level-1] 
+        pu rt 180 fd :side*2^(:level-1) pd
+    ]
+end
+speed -1 ht setxy[-140,-80] seth 0 clean rt 90
+dragon[3,7]
+
+```
+![dragon](dragon.png)
+
+
+## Krzywa Hilberta
+```
+to hilbert[:side, :level, :par]
+    if :level != 0 [
+        lt 90*:par
+        hilbert[:side, :level-1, -:par]
+        fd :side
+        rt 90*:par
+        hilbert[:side, :level-1, :par]
+        fd :side
+        hilbert[:side, :level-1, :par]
+        rt 90*:par
+        fd :side
+        hilbert[:side, :level-1, -:par]
+        lt 90*:par
+    ]
+end
+
+setpos[-280,-280]
+clean speed -1 ht
+hilbert[4.5,7,1]
+```
+![hilbert](hilbert_curve.png)
+
 ## Krzywa Kocha
 ```
 to koch[:side,:level]
@@ -204,11 +250,23 @@ to koch[:side,:level]
         koch[:side/3, :level-1]
     ]
 end
-sety -300 speed 0 clean
-koch[600,4]
+setpos[-300,0] speed 0 clean
+koch[600,5]
 
 ```
 ![koch](koch_curve.png)
+
+## Płatek śniegu Hilberta
+```
+to snowflake[:side, :level]
+    repeat 3 [koch[:side, :level] rt 120]
+end
+
+setpos[-250,150] clean speed 0 ht
+snowflake[500,5]
+```
+![snowflake](hilbert_snowflake.png)
+
 ## Logo Logo :)
 ```
 to n_eck [:ne, :sz] 
@@ -227,6 +285,7 @@ mn_eck[36,20]
 st
 ```
 ![logologo](logologo.png)
+
 ## Wielokąt foremny
 ```
 to foremny[:n, :a]
@@ -240,6 +299,7 @@ cs
 foremny[9, 100]
 ```
 ![foremny](foremny.png)
+
 ## Spirala
 ```
 to spiral[] 

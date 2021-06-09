@@ -548,7 +548,7 @@ def eval(c):
         elif op == '<=':
             return arg1 <= arg2
         elif op == '=':
-            return arg1 < arg2
+            return arg1 == arg2
         elif op == '!=':
             return arg1 != arg2
 
